@@ -1,20 +1,19 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fahimi Amir — Portfolio',
+    default: 'Muhammad Fahimi Amir — Portfolio',
     template: '%s | Fahimi Amir',
   },
-  description: 'Full-stack developer building modern web experiences. Explore my projects, skills, and experience.',
+  description:
+    'Software Engineer & Award-Winning Creative Video Maker. Building reliable software and compelling visual stories — from UKM to Petronas and beyond.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  openGraph: {
+    title: 'Muhammad Fahimi Amir — Portfolio',
+    description: 'Software Engineer & Award-Winning Creative Video Maker.',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
@@ -23,8 +22,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0a0a0f] text-white">{children}</body>
+    <html lang="en" className="h-full">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full" style={{ background: '#09090b' }}>
+        {children}
+      </body>
     </html>
   )
 }

@@ -6,7 +6,7 @@ const NAV_ITEMS: { id: Section; label: string }[] = [
   { id: 'about', label: 'About' },
   { id: 'resume', label: 'Resume' },
   { id: 'portfolio', label: 'Portfolio' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'contact', label: 'Awards & Honours' },
 ]
 
 interface NavBarProps {

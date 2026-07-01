@@ -1,7 +1,19 @@
 'use client'
 
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Trophy } from 'lucide-react'
+import Image from 'next/image'
+import { urlFor } from '@/lib/sanity'
 import { contactData } from '@/lib/portfolio-data'
+
+const CARD_GRADIENTS = [
+  'from-violet-900/60 via-violet-800/30 to-black',
+  'from-amber-900/60 via-amber-800/30 to-black',
+  'from-indigo-900/60 via-indigo-800/30 to-black',
+  'from-rose-900/60 via-rose-800/30 to-black',
+  'from-emerald-900/60 via-emerald-800/30 to-black',
+  'from-cyan-900/60 via-cyan-800/30 to-black',
+  'from-purple-900/60 via-purple-800/30 to-black',
+]
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -20,91 +32,58 @@ function GitHubIcon({ className }: { className?: string }) {
 }
 
 interface ContactSectionProps {
-  data?: typeof contactData
+  contactData?: typeof contactData
+  awardsData?: any[]
 }
 
-export function ContactSection({ data = contactData }: ContactSectionProps) {
+export function ContactSection({ contactData: data = contactData, awardsData = [] }: ContactSectionProps) {
   return (
     <div className="section-content">
       <div className="section-heading">
         <span className="section-num">04</span>
         <div>
-          <h2 className="section-title">Contact</h2>
+          <h2 className="section-title">Awards & Honours</h2>
           <div className="section-underline" />
         </div>
       </div>
 
-      <p className="text-sm text-white/50 leading-relaxed mb-8 max-w-lg">
-        Whether it&apos;s a project collaboration, a job opportunity, or just a conversation — I&apos;d love to hear from you. Let&apos;s build something remarkable together.
-      </p>
+      {/* Awards Section */}
+      {awardsData && awardsData.length > 0 && (
+        <div className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gold/10">
+              <Trophy className="w-4 h-4 text-gold" />
+            </div>
+            <h3 className="text-base font-semibold text-white font-display">Awards & Honours</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {awardsData.map((award: any, i: number) => (
+              <div key={i} className="project-card group">
+                <div className={`h-36 rounded-xl overflow-hidden bg-gradient-to-br ${CARD_GRADIENTS[i % CARD_GRADIENTS.length]} flex items-center justify-center mb-4 relative`}>
+                  <div className="absolute inset-0 opacity-20 noise-texture" />
+                  {award.image ? (
+                    <Image src={urlFor(award.image).width(600).height(400).url()} alt={award.title} fill className="object-cover" />
+                  ) : (
+                    <Trophy className="w-10 h-10 text-white/20" />
+                  )}
+                  <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-black/40 text-gold border border-gold/20">
+                    {award.year}
+                  </span>
+                </div>
 
-      {/* Contact cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <a href={`mailto:${data.email}`} className="contact-card group">
-          <div className="contact-card-icon">
-            <Mail className="w-5 h-5 text-amber-400" />
-          </div>
-          <div>
-            <p className="label mb-1">Email</p>
-            <p className="text-sm text-white/70 group-hover:text-amber-400 transition-colors break-all">{data.email}</p>
-          </div>
-        </a>
-
-        <a href={`tel:${data.phone.replace(/\s/g, '')}`} className="contact-card group">
-          <div className="contact-card-icon">
-            <Phone className="w-5 h-5 text-amber-400" />
-          </div>
-          <div>
-            <p className="label mb-1">Phone</p>
-            <p className="text-sm text-white/70 group-hover:text-amber-400 transition-colors">{data.phone}</p>
-          </div>
-        </a>
-
-        <div className="contact-card">
-          <div className="contact-card-icon">
-            <MapPin className="w-5 h-5 text-amber-400" />
-          </div>
-          <div>
-            <p className="label mb-1">Location</p>
-            <p className="text-sm text-white/70">{data.location}</p>
+                <h3 className="text-sm font-semibold text-white mb-1.5 leading-snug group-hover:text-gold transition-colors">
+                  {award.title}
+                </h3>
+                <p className="text-xs text-white/45 leading-relaxed mb-3">
+                  {award.org}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Social Links */}
-      <div className="flex gap-3 mb-10">
-        <a href={data.linkedin} target="_blank" rel="noopener noreferrer" className="social-link-pill">
-          <LinkedInIcon className="w-4 h-4" />
-          LinkedIn
-        </a>
-        <a href={data.github} target="_blank" rel="noopener noreferrer" className="social-link-pill">
-          <GitHubIcon className="w-4 h-4" />
-          GitHub
-        </a>
-      </div>
-
-      {/* Quick message form */}
-      <div className="form-panel">
-        <h3 className="text-base font-semibold text-white mb-5" style={{fontFamily: "'Space Grotesk', sans-serif"}}>Send a Message</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="label mb-1.5 block">Full Name</label>
-            <input type="text" placeholder="Your name" className="form-input" />
-          </div>
-          <div>
-            <label className="label mb-1.5 block">Email Address</label>
-            <input type="email" placeholder="your@email.com" className="form-input" />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label className="label mb-1.5 block">Message</label>
-          <textarea rows={4} placeholder="What&apos;s on your mind?" className="form-input resize-none" />
-        </div>
-        <button className="send-btn">
-          <Send className="w-4 h-4" />
-          Send Message
-        </button>
-      </div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SanityLive } from '@/sanity/lib/live'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full" style={{ background: '#09090b' }}>
         {children}
+        <SanityLive />
       </body>
     </html>
   )

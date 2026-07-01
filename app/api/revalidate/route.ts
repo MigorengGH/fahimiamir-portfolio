@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     switch (_type) {
       case 'project':
         revalidatePath('/projects')
-        revalidateTag('project')
+
         break
       default:
         revalidatePath('/')

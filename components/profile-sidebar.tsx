@@ -61,11 +61,10 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           rel="noopener noreferrer"
           download={!hasResume ? undefined : true}
           aria-disabled={!hasResume}
-          className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${
-            hasResume
-              ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
-              : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
-          }`}
+          className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${hasResume
+            ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
+            : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
+            }`}
           onClick={(e) => { if (!hasResume) e.preventDefault() }}
         >
           <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
@@ -156,19 +155,19 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       </div>
 
       {/* LinkedIn Badge */}
-      <div className="mt-6 md:mt-8 w-full flex justify-center overflow-hidden bg-white rounded-xl">
-        <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2">
+      <div className="mt-6 md:mt-2 w-full flex justify-center overflow-hidden. rounded-xl">
+        <div className="transform scale-[0.9] sm:scale-100 lg:scale-[0.6] xl:scale-[0.85]">
           <div
             className="badge-base LI-profile-badge"
             data-locale="en_US"
             data-size="large"
             data-theme="light"
-            data-type="HORIZONTAL"
+            data-type="horizontal"
             data-vanity="fahimi-amir"
             data-version="v1"
           >
             <a className=" badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
-              
+
             </a>
           </div>
         </div>

@@ -21,7 +21,7 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
 
       {/* What I'm Doing */}
       <div>
-        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">What I'm Doing</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">What I&apos;m Doing</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {data.services.map((service: any, index) => {
             return (

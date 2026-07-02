@@ -1,7 +1,7 @@
 'use client'
 
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ContactSectionProps {
   data?: any // flexible for Sanity profile data
@@ -13,6 +13,19 @@ export function ContactSection({ data }: ContactSectionProps) {
     email: '',
     message: '',
   })
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = "https://platform.linkedin.com/badges/js/profile.js"
+    script.async = true
+    script.defer = true
+    document.body.appendChild(script)
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
+    }
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,17 +47,20 @@ export function ContactSection({ data }: ContactSectionProps) {
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 
-      <div className="w-full h-64 md:h-80 rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary">
-        <iframe
-          src={mapEmbedUrl}
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Office Location"
-        />
+      <div className="w-full rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary flex justify-center items-center py-6">
+        <div 
+          className="badge-base LI-profile-badge" 
+          data-locale="en_US" 
+          data-size="medium" 
+          data-theme="light" 
+          data-type="HORIZONTAL" 
+          data-vanity="fahimi-amir" 
+          data-version="v1"
+        >
+          <a className="badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
+            Fahimi Amir
+          </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">

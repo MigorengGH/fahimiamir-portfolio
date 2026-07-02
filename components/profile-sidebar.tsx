@@ -18,14 +18,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   const hasResume = resumeHref && resumeHref !== '#'
 
   useEffect(() => {
-    const script = document.createElement('script')
-    script.src = "https://platform.linkedin.com/badges/js/profile.js"
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-    return () => {
-      document.body.removeChild(script)
-    }
+    // LinkedIn script moved to contact section
   }, [])
 
   return (
@@ -153,22 +146,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         </a>
       </div>
 
-      {/* LinkedIn Badge */}
-      <div className="mt-8 flex justify-center w-full overflow-hidden">
-        <div 
-          className="badge-base LI-profile-badge" 
-          data-locale="en_US" 
-          data-size="medium" 
-          data-theme="light" 
-          data-type="VERTICAL" 
-          data-vanity="fahimi-amir" 
-          data-version="v1"
-        >
-          <a className="badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
-            Fahimi Amir
-          </a>
-        </div>
-      </div>
+
     </aside>
   )
 }

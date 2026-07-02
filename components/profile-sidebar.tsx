@@ -22,25 +22,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
 
   useEffect(() => {
     setMounted(true)
-    const script = document.createElement('script')
-    script.src = "https://platform.linkedin.com/badges/js/profile.js"
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script)
-      }
-    }
   }, [])
-
-  useEffect(() => {
-    if (mounted && typeof window !== 'undefined' && (window as any).LIRenderAll) {
-      setTimeout(() => {
-        (window as any).LIRenderAll()
-      }, 100)
-    }
-  }, [resolvedTheme, mounted])
 
   return (
     <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
@@ -64,9 +46,13 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">
           <TextReveal text={data.name} delay={100} />
         </h1>
-        <p className="text-xs md:text-sm text-muted-foreground bg-secondary px-3 md:px-4 py-1 rounded-lg animate-in fade-in slide-in-from-bottom-2 duration-700 delay-200 ease-out fill-mode-both">
+        <div className="flex items-center gap-2 text-xs md:text-sm font-medium text-accent bg-accent/10 border border-accent/30 shadow-[0_0_15px_rgba(var(--accent),0.3)] px-4 py-1.5 rounded-full animate-in fade-in slide-in-from-bottom-2 duration-700 ease-out fill-mode-both">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+          </span>
           <TextReveal text={data.title} delay={300} />
-        </p>
+        </div>
 
         {/* Download Resume Button */}
         <a
@@ -87,10 +73,10 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-border my-4 md:my-6 animate-in fade-in duration-700 delay-[400ms] fill-mode-both" />
+      <div className="h-px bg-border my-4 md:my-6 animate-in fade-in duration-700 fill-mode-both" />
 
       {/* Contact Info */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-500 ease-out fill-mode-both">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4 animate-in fade-in slide-in-from-bottom-2 duration-700 ease-out fill-mode-both">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
             <Mail className="w-5 h-5 text-accent" />
@@ -133,7 +119,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       </div>
 
       {/* Social Links */}
-      <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-border animate-in fade-in slide-in-from-bottom-2 duration-700 delay-[600ms] ease-out fill-mode-both">
+      <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 pt-4 md:pt-6 border-t border-border animate-in fade-in slide-in-from-bottom-2 duration-700 ease-out fill-mode-both">
         <a
           href={data.social.linkedin}
           target="_blank"
@@ -167,26 +153,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           <Phone className="w-5 h-5" />
         </a>
       </div>
-
-      {/* LinkedIn Badge */}
-      {mounted && (
-        <div className="mt-6 md:mt-8 w-full hidden md:flex justify-center overflow-hidden rounded-xl animate-in fade-in slide-in-from-bottom-2 duration-700 delay-[700ms] ease-out fill-mode-both bg-white border border-border/50">
-          <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2 w-full flex justify-center">
-            <div
-              className="badge-base LI-profile-badge"
-              data-locale="en_US"
-              data-size="large"
-              data-theme="light"
-              data-type="HORIZONTAL"
-              data-vanity="fahimi-amir"
-              data-version="v1"
-            >
-              <a className=" badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
 
     </aside>
   )

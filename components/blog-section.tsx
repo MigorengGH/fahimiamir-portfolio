@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Trophy, Users, LayoutGrid, ChevronRight, ChevronLeft, ExternalLink, ArrowLeft, Home } from 'lucide-react'
 import { TextReveal } from '@/components/text-reveal'
+import { AnimatedReveal } from '@/components/animated-reveal'
 
 type Filter = 'all' | 'award' | 'extracurricular'
 
@@ -175,65 +176,68 @@ export function BlogSection({ data }: BlogSectionProps) {
           const meta = BADGE_META[post.category || 'award'] || BADGE_META.award
           const BadgeIcon = meta.Icon
           return (
-            <div
-              key={index}
-              onClick={() => setSelectedPost(post)}
-              className={`group relative bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg ${meta.glow} transition-all duration-300 flex flex-col cursor-pointer`}
-            >
-              {/* Image */}
-              <div className="relative aspect-video overflow-hidden bg-background flex-shrink-0">
-                <img
-                  src={(post.imageUrls && post.imageUrls[0]) || post.imageUrl || post.image || '/placeholder.svg'}
-                  alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+            <AnimatedReveal key={index} delay={index * 100} direction="up" className="h-full">
+              <div
+                onClick={() => setSelectedPost(post)}
+                className={`group relative bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg ${meta.glow} transition-all duration-300 flex flex-col cursor-pointer h-full`}
+              >
+                {/* Image */}
+                <div className="relative aspect-video overflow-hidden bg-background flex-shrink-0">
+                  <AnimatedReveal delay={index * 100 + 150} direction="none" className="w-full h-full">
+                    <img
+                      src={(post.imageUrls && post.imageUrls[0]) || post.imageUrl || post.image || '/placeholder.svg'}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </AnimatedReveal>
 
-                {/* Hover overlay with Visit button */}
-                <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedPost(post)
-                    }}
-                    className="flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300 cursor-pointer hover:opacity-90"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    Visit
+                  {/* Hover overlay with Visit button */}
+                  <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setSelectedPost(post)
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300 cursor-pointer hover:opacity-90"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      Visit
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-4 md:p-5 flex flex-col flex-1">
+                  {/* Badge + year */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-xs font-semibold ${meta.chip}`}>
+                      <BadgeIcon className="w-3 h-3" />
+                      {meta.label}
+                    </span>
+                    <span className="text-xs text-muted-foreground ml-auto">{post.year}</span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-sm md:text-base font-semibold text-foreground mb-1.5 leading-snug group-hover:text-accent transition-colors">
+                    {post.title}
+                  </h3>
+
+                  {/* Org */}
+                  <p className="text-xs text-accent font-medium mb-2">{post.org}</p>
+
+                  {/* Description — clipped in list, full in detail */}
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
+                    {post.description}
+                  </p>
+
+                  {/* Read more cue */}
+                  <div className="flex items-center gap-1 mt-3 text-xs text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Read more
+                    <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
-
-              {/* Content */}
-              <div className="p-4 md:p-5 flex flex-col flex-1">
-                {/* Badge + year */}
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-xs font-semibold ${meta.chip}`}>
-                    <BadgeIcon className="w-3 h-3" />
-                    {meta.label}
-                  </span>
-                  <span className="text-xs text-muted-foreground ml-auto">{post.year}</span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-sm md:text-base font-semibold text-foreground mb-1.5 leading-snug group-hover:text-accent transition-colors">
-                  {post.title}
-                </h3>
-
-                {/* Org */}
-                <p className="text-xs text-accent font-medium mb-2">{post.org}</p>
-
-                {/* Description — clipped in list, full in detail */}
-                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                  {post.description}
-                </p>
-
-                {/* Read more cue */}
-                <div className="flex items-center gap-1 mt-3 text-xs text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Read more
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </div>
-              </div>
-            </div>
+            </AnimatedReveal>
           )
         })}
       </div>

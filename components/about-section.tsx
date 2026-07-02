@@ -1,6 +1,7 @@
 import { Icon } from '@/components/icon'
 import { aboutData } from '@/lib/portfolio-data'
 import { TextReveal } from '@/components/text-reveal'
+import { AnimatedReveal } from '@/components/animated-reveal'
 
 interface AboutSectionProps {
   data?: typeof aboutData
@@ -17,7 +18,9 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
         <div className="space-y-4 text-sm md:text-base text-muted-foreground leading-relaxed">
           {data.description.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+            <AnimatedReveal key={index} delay={index * 100}>
+              <p>{paragraph}</p>
+            </AnimatedReveal>
           ))}
         </div>
       </div>
@@ -30,18 +33,21 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {data.services.map((service: any, index) => {
             return (
-              <div
-                key={index}
-                className={`flex gap-3 md:gap-4 p-4 md:p-6 bg-gradient-to-br ${service.color || 'from-secondary to-secondary'} rounded-xl md:rounded-2xl border ${service.borderColor || 'border-border hover:border-accent'} transition-colors`}
-              >
-                <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
-                  <Icon name={service.icon} className={`w-full h-full ${service.iconColor || 'text-accent'}`} strokeWidth={1.5} />
+              <AnimatedReveal key={index} delay={index * 150} direction="up">
+                <div
+                  className={`flex gap-3 md:gap-4 p-4 md:p-6 bg-gradient-to-br ${service.color || 'from-secondary to-secondary'} rounded-xl md:rounded-2xl border ${service.borderColor || 'border-border hover:border-accent'} transition-colors h-full`}
+                >
+                  <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+                    <AnimatedReveal delay={index * 150 + 200} direction="left">
+                      <Icon name={service.icon} className={`w-full h-full ${service.iconColor || 'text-accent'}`} strokeWidth={1.5} />
+                    </AnimatedReveal>
+                  </div>
+                  <div>
+                    <h4 className="text-base md:text-lg font-semibold text-foreground mb-2">{service.title}</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{service.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-base md:text-lg font-semibold text-foreground mb-2">{service.title}</h4>
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                </div>
-              </div>
+              </AnimatedReveal>
             )
           })}
         </div>

@@ -17,6 +17,7 @@ import {
 // fallback static data just in case types demand it, though we rely on props
 import { resumeData } from '@/lib/portfolio-data'
 import { TextReveal } from '@/components/text-reveal'
+import { AnimatedReveal } from '@/components/animated-reveal'
 
 interface ResumeSectionProps {
   data?: any // using any for flexibility with Sanity data shape
@@ -51,18 +52,22 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
           </div>
           <div className="space-y-4">
             {education.map((item: any, index: number) => (
-              <div key={index} className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
-                <div className="flex items-center gap-3 mb-2">
-                  {/*make the image bigger*/}
-                  {item.imageUrl && (
-                    <img width={100} height={100} src={item.imageUrl} alt={item.title} className="w-12 h-12 md:w-15 md:h-15 rounded-md object-contain" />
-                  )}
-                  <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+              <AnimatedReveal key={index} delay={index * 150} direction="up">
+                <div className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0 h-full">
+                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
+                  <div className="flex items-center gap-3 mb-2">
+                    {/*make the image bigger*/}
+                    {item.imageUrl && (
+                      <AnimatedReveal delay={index * 150 + 200} direction="left">
+                        <img width={100} height={100} src={item.imageUrl} alt={item.title} className="w-12 h-12 md:w-15 md:h-15 rounded-md object-contain" />
+                      </AnimatedReveal>
+                    )}
+                    <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+                  </div>
+                  <p className="text-xs md:text-sm text-accent mb-2">{item.period || item.institution}</p>
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
                 </div>
-                <p className="text-xs md:text-sm text-accent mb-2">{item.period || item.institution}</p>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
-              </div>
+              </AnimatedReveal>
             ))}
           </div>
         </div>
@@ -79,17 +84,21 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
           </div>
           <div className="space-y-4">
             {experience.map((item: any, index: number) => (
-              <div key={index} className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0">
-                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
-                <div className="flex items-center gap-3 mb-2">
-                  {item.imageUrl && (
-                    <img width={100} height={100} src={item.imageUrl} alt={item.company || item.title} className="w-12 h-12 md:w-20 md:h-20 rounded-md object-contain" />
-                  )}
-                  <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+              <AnimatedReveal key={index} delay={index * 150} direction="up">
+                <div className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0 h-full">
+                  <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
+                  <div className="flex items-center gap-3 mb-2">
+                    {item.imageUrl && (
+                      <AnimatedReveal delay={index * 150 + 200} direction="left">
+                        <img width={100} height={100} src={item.imageUrl} alt={item.company || item.title} className="w-12 h-12 md:w-20 md:h-20 rounded-md object-contain" />
+                      </AnimatedReveal>
+                    )}
+                    <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+                  </div>
+                  <p className="text-xs md:text-sm text-accent mb-2">{(item.company ? `${item.company} • ` : '') + (item.period || '')}</p>
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
                 </div>
-                <p className="text-xs md:text-sm text-accent mb-2">{(item.company ? `${item.company} • ` : '') + (item.period || '')}</p>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
-              </div>
+              </AnimatedReveal>
             ))}
           </div>
         </div>
@@ -106,68 +115,69 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {certifications.map((item: any, index: number) => (
-              <div
-                key={index}
-                className="group relative bg-secondary rounded-xl border border-border overflow-hidden transition-all duration-300 hover:border-accent hover:shadow-lg hover:shadow-accent/10"
-                onMouseEnter={() => setHoveredCert(index)}
-                onMouseLeave={() => setHoveredCert(null)}
-              >
-                <div className="p-4 md:p-5">
-                  {item.issuer && (
-                    <span className="inline-block px-2.5 py-0.5 bg-accent/10 text-accent text-xs font-semibold rounded-full mb-3">
-                      {item.issuer}
-                    </span>
-                  )}
-                  <h4 className="text-sm md:text-base font-semibold text-foreground leading-snug mb-3 group-hover:text-accent transition-colors">
-                    {item.title}
-                  </h4>
-                  {(item.year || item.period) && (
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {[item.year, item.period].filter(Boolean).join(' • ')}
-                    </p>
-                  )}
-                  {item.credentialId && (
-                    <p className="text-xs text-muted-foreground font-mono mb-4">
-                      ID: {item.credentialId}
-                    </p>
-                  )}
-                </div>
-
+              <AnimatedReveal key={index} delay={index * 100} direction="up">
                 <div
-                  className={`absolute bottom-0 left-0 right-0 px-4 pb-4 transition-all duration-300 flex gap-2 ${hoveredCert === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-                    }`}
+                  className="group relative bg-secondary rounded-xl border border-border overflow-hidden transition-all duration-300 hover:border-accent hover:shadow-lg hover:shadow-accent/10 h-full"
+                  onMouseEnter={() => setHoveredCert(index)}
+                  onMouseLeave={() => setHoveredCert(null)}
                 >
-                  {item.imageUrl && (
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <button className="flex-1 flex items-center justify-center gap-2 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity">
-                          <ImageIcon className="w-3.5 h-3.5" />
-                          Preview
-                        </button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-3xl border-none bg-transparent shadow-none p-0 overflow-hidden">
-                        <DialogTitle className="sr-only">{item.title} Preview</DialogTitle>
-                        <img src={item.imageUrl} alt={item.title} className="w-full h-auto rounded-lg" />
-                      </DialogContent>
-                    </Dialog>
-                  )}
-                  {item.url && (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold transition-colors ${item.imageUrl
-                        ? 'bg-accent/20 text-accent hover:bg-accent/30'
-                        : 'bg-accent text-accent-foreground hover:opacity-90'
-                        }`}
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      {item.imageUrl ? 'Link' : 'View Certificate'}
-                    </a>
-                  )}
+                  <div className="p-4 md:p-5">
+                    {item.issuer && (
+                      <span className="inline-block px-2.5 py-0.5 bg-accent/10 text-accent text-xs font-semibold rounded-full mb-3">
+                        {item.issuer}
+                      </span>
+                    )}
+                    <h4 className="text-sm md:text-base font-semibold text-foreground leading-snug mb-3 group-hover:text-accent transition-colors">
+                      {item.title}
+                    </h4>
+                    {(item.year || item.period) && (
+                      <p className="text-xs text-muted-foreground mb-1">
+                        {[item.year, item.period].filter(Boolean).join(' • ')}
+                      </p>
+                    )}
+                    {item.credentialId && (
+                      <p className="text-xs text-muted-foreground font-mono mb-4">
+                        ID: {item.credentialId}
+                      </p>
+                    )}
+                  </div>
+
+                  <div
+                    className={`absolute bottom-0 left-0 right-0 px-4 pb-4 transition-all duration-300 flex gap-2 ${hoveredCert === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+                      }`}
+                  >
+                    {item.imageUrl && (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button className="flex-1 flex items-center justify-center gap-2 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity">
+                            <ImageIcon className="w-3.5 h-3.5" />
+                            Preview
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-3xl border-none bg-transparent shadow-none p-0 overflow-hidden">
+                          <DialogTitle className="sr-only">{item.title} Preview</DialogTitle>
+                          <img src={item.imageUrl} alt={item.title} className="w-full h-auto rounded-lg" />
+                        </DialogContent>
+                      </Dialog>
+                    )}
+                    {item.url && (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold transition-colors ${item.imageUrl
+                          ? 'bg-accent/20 text-accent hover:bg-accent/30'
+                          : 'bg-accent text-accent-foreground hover:opacity-90'
+                          }`}
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        {item.imageUrl ? 'Link' : 'View Certificate'}
+                      </a>
+                    )}
+                  </div>
+                  <div className={`transition-all duration-300 ${hoveredCert === index ? 'h-12' : 'h-0'}`} />
                 </div>
-                <div className={`transition-all duration-300 ${hoveredCert === index ? 'h-12' : 'h-0'}`} />
-              </div>
+              </AnimatedReveal>
             ))}
           </div>
         </div>
@@ -187,30 +197,31 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
               {skillGroups.map((group: any, index: number) => {
                 return (
-                  <div
-                    key={index}
-                    className={`group relative bg-gradient-to-br ${group.color || 'from-secondary to-background'} rounded-xl border ${group.borderColor || 'border-border'} p-4 md:p-5 hover:shadow-lg transition-all duration-300`}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-9 h-9 rounded-lg bg-background/60 flex items-center justify-center flex-shrink-0">
-                        <Icon name={group.icon || 'Globe'} className={`w-5 h-5 ${group.iconColor || 'text-foreground'}`} />
+                  <AnimatedReveal key={index} delay={index * 100} direction="up">
+                    <div
+                      className={`group relative bg-gradient-to-br ${group.color || 'from-secondary to-background'} rounded-xl border ${group.borderColor || 'border-border'} p-4 md:p-5 hover:shadow-lg transition-all duration-300 h-full`}
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-9 h-9 rounded-lg bg-background/60 flex items-center justify-center flex-shrink-0">
+                          <Icon name={group.icon || 'Globe'} className={`w-5 h-5 ${group.iconColor || 'text-foreground'}`} />
+                        </div>
+                        <h4 className={`text-sm md:text-base font-bold ${group.iconColor || 'text-foreground'}`}>{group.domain}</h4>
                       </div>
-                      <h4 className={`text-sm md:text-base font-bold ${group.iconColor || 'text-foreground'}`}>{group.domain}</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {group.tools?.map((tool: any, ti: number) => {
+                          return (
+                            <span
+                              key={ti}
+                              className="flex items-center gap-1 px-1.5 py-1 bg-background/60 border border-border/50 rounded-lg text-xs text-foreground font-medium"
+                            >
+                              {/* {tool.icon && <Icon name={tool.icon} className="w-3.5 h-3.5" />} */}
+                              {tool.name}
+                            </span>
+                          )
+                        })}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {group.tools?.map((tool: any, ti: number) => {
-                        return (
-                          <span
-                            key={ti}
-                            className="flex items-center gap-1 px-1.5 py-1 bg-background/60 border border-border/50 rounded-lg text-xs text-foreground font-medium"
-                          >
-                            {/* {tool.icon && <Icon name={tool.icon} className="w-3.5 h-3.5" />} */}
-                            {tool.name}
-                          </span>
-                        )
-                      })}
-                    </div>
-                  </div>
+                  </AnimatedReveal>
                 )
               })}
             </div>

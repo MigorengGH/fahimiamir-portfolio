@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { ExternalLink, Eye } from 'lucide-react'
+import { TextReveal } from '@/components/text-reveal'
 
 interface PortfolioSectionProps {
   data?: any // flexible for Sanity data shape
@@ -34,7 +35,9 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
   return (
     <div className="space-y-6 md:space-y-8">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Portfolio</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <TextReveal text="Portfolio" />
+        </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 

@@ -16,6 +16,7 @@ import {
 
 // fallback static data just in case types demand it, though we rely on props
 import { resumeData } from '@/lib/portfolio-data'
+import { TextReveal } from '@/components/text-reveal'
 
 interface ResumeSectionProps {
   data?: any // using any for flexibility with Sanity data shape
@@ -33,7 +34,9 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
   return (
     <div className="space-y-10 md:space-y-14">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Resume</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <TextReveal text="Resume" />
+        </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 
@@ -42,7 +45,9 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">Education</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+              <TextReveal text="Education" delay={100} />
+            </h3>
           </div>
           <div className="space-y-4">
             {education.map((item: any, index: number) => (
@@ -68,7 +73,9 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Briefcase className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">Experience</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+              <TextReveal text="Experience" delay={100} />
+            </h3>
           </div>
           <div className="space-y-4">
             {experience.map((item: any, index: number) => (
@@ -93,7 +100,9 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Award className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">Licenses &amp; Certifications</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+              <TextReveal text="Licenses & Certifications" delay={100} />
+            </h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {certifications.map((item: any, index: number) => (
@@ -169,7 +178,9 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Code className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">Skills &amp; Tools</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+              <TextReveal text="Skills & Tools" delay={100} />
+            </h3>
           </div>
           {/* Render Sanity grouped skills array */}
           {skillGroups.length > 0 && (

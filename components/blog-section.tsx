@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Trophy, Users, LayoutGrid, ChevronRight, ChevronLeft, ExternalLink, ArrowLeft, Home } from 'lucide-react'
+import { TextReveal } from '@/components/text-reveal'
 
 type Filter = 'all' | 'award' | 'extracurricular'
 
@@ -48,7 +49,9 @@ export function BlogSection({ data }: BlogSectionProps) {
       <div className="space-y-6">
         {/* Heading */}
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Blog</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            <TextReveal text="Blog" />
+          </h2>
           <div className="w-10 h-1 bg-accent rounded-full mb-6" />
         </div>
 
@@ -142,7 +145,9 @@ export function BlogSection({ data }: BlogSectionProps) {
     <div className="space-y-6 md:space-y-8">
       {/* Heading */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Blog</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <TextReveal text="Blog" />
+        </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 

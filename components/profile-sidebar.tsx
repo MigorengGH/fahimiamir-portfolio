@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { Mail, Phone, MapPin, Github, Download } from 'lucide-react'
-import { Linkedin } from 'lucide-react'
+import { Mail, Phone, MapPin, Github, Download, Linkedin } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { profileData } from '@/lib/portfolio-data'
 import { urlFor } from '@/lib/sanity'
+import { TextReveal } from '@/components/text-reveal'
 
 interface ProfileSidebarProps {
   data?: typeof profileData & {
@@ -15,17 +15,13 @@ interface ProfileSidebarProps {
 }
 
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
-  const resumeHref = (data as any).resumeUrl || (data as any).resumeDocumentUrl || '#'
-  const hasResume = resumeHref && resumeHref !== '#'
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const resumeHref = (data as any).resumeUrl || (data as any).resumeDocumentUrl || '#'
+  const hasResume = resumeHref && resumeHref !== '#'
 
   useEffect(() => {
     setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!mounted) return
     const script = document.createElement('script')
     script.src = "https://platform.linkedin.com/badges/js/profile.js"
     script.async = true
@@ -36,13 +32,21 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         document.body.removeChild(script)
       }
     }
+  }, [])
+
+  useEffect(() => {
+    if (mounted && typeof window !== 'undefined' && (window as any).LIRenderAll) {
+      setTimeout(() => {
+        (window as any).LIRenderAll()
+      }, 100)
+    }
   }, [resolvedTheme, mounted])
 
   return (
     <aside className="w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
       {/* Profile Image */}
       <div className="flex flex-col items-center">
-        <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6 animate-in fade-in zoom-in-90 duration-700 ease-out fill-mode-both">
+        <div className="relative w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
           <div className="absolute inset-[2px] rounded-3xl bg-secondary overflow-hidden">
             <img
@@ -57,9 +61,11 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           </div>
         </div>
 
-        <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-100 ease-out fill-mode-both">{data.name}</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+          <TextReveal text={data.name} delay={100} />
+        </h1>
         <p className="text-xs md:text-sm text-muted-foreground bg-secondary px-3 md:px-4 py-1 rounded-lg animate-in fade-in slide-in-from-bottom-2 duration-700 delay-200 ease-out fill-mode-both">
-          {data.title}
+          <TextReveal text={data.title} delay={300} />
         </p>
 
         {/* Download Resume Button */}
@@ -69,7 +75,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           rel="noopener noreferrer"
           download={!hasResume ? undefined : true}
           aria-disabled={!hasResume}
-          className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300 ease-out fill-mode-both ${hasResume
+          className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${hasResume
             ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
             : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
             }`}
@@ -164,14 +170,14 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
 
       {/* LinkedIn Badge */}
       {mounted && (
-        <div key={resolvedTheme} className="mt-6 md:mt-8 w-full hidden md:flex justify-center overflow-hidden bg-white/5 rounded-xl animate-in fade-in slide-in-from-bottom-2 duration-700 delay-700 ease-out fill-mode-both">
-          <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2">
+        <div className="mt-6 md:mt-8 w-full hidden md:flex justify-center overflow-hidden rounded-xl animate-in fade-in slide-in-from-bottom-2 duration-700 delay-[700ms] ease-out fill-mode-both bg-white border border-border/50">
+          <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2 w-full flex justify-center">
             <div
               className="badge-base LI-profile-badge"
               data-locale="en_US"
               data-size="large"
-              data-theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
-              data-type="horizontal"
+              data-theme="light"
+              data-type="HORIZONTAL"
               data-vanity="fahimi-amir"
               data-version="v1"
             >
@@ -181,7 +187,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           </div>
         </div>
       )}
-
 
     </aside>
   )

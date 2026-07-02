@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createClient } from 'next-sanity'
 import { profileData, aboutData, resumeData } from '../lib/portfolio-data'
 import { apiVersion, dataset, projectId } from '../sanity/env'
@@ -63,16 +64,12 @@ async function seed() {
       _key: `exp-${index}`,
       ...item,
     })),
-    skills: resumeData.skills.map((item: any, index: number) => ({
-      _key: `skill-${index}`,
+    skillGroups: (resumeData.skillGroups || []).map((item: any, index: number) => ({
+      _key: `skillGroup-${index}`,
       ...item,
     })),
     certifications: resumeData.certifications.map((item: any, index: number) => ({
       _key: `cert-${index}`,
-      ...item,
-    })),
-    awards: resumeData.awards.map((item: any, index: number) => ({
-      _key: `award-${index}`,
       ...item,
     })),
   })

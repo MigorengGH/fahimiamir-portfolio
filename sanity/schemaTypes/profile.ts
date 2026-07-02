@@ -51,6 +51,12 @@ export const profile = defineType({
       ],
     }),
     defineField({
+      name: 'resumeUrl',
+      title: 'Resume URL (External Link)',
+      type: 'url',
+      description: 'If provided, this URL will be used for the Download Resume button. If left empty, the uploaded document below will be used.',
+    }),
+    defineField({
       name: 'resumeDocument',
       title: 'Resume Document (PDF)',
       type: 'file',

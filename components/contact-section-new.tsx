@@ -47,60 +47,64 @@ export function ContactSection({ data }: ContactSectionProps) {
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
       </div>
 
-      <div className="w-full rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary flex justify-center items-center py-6">
-        <div 
-          className="badge-base LI-profile-badge" 
-          data-locale="en_US" 
-          data-size="medium" 
-          data-theme="light" 
-          data-type="HORIZONTAL" 
-          data-vanity="fahimi-amir" 
-          data-version="v1"
-        >
-          <a className="badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
-            Fahimi Amir
-          </a>
-        </div>
-      </div>
+      <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+        {/* Left: LinkedIn Badge */}
+        <div className="w-full md:w-1/2 lg:w-[400px] rounded-xl md:rounded-2xl overflow-hidden border border-border bg-secondary flex justify-center items-center py-6 shrink-0">
+          <div
+            className="badge-base LI-profile-badge"
+            data-locale="en_US"
+            data-size="large"
+            data-theme="light"
+            data-type="HORIZONTAL"
+            data-vanity="fahimi-amir"
+            data-version="v1"
+          >
+            <a className=" badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-        <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
-          <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Mail className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-          </div>
-          <div className="min-w-0">
-            <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Email</h3>
-            <a
-              href={`mailto:${email}`}
-              className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium truncate block"
-            >
-              {email}
             </a>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
-          <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <Phone className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+        {/* Right: Contact Details */}
+        <div className="flex-1 flex flex-col justify-center gap-3 md:gap-4">
+          <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+              <Mail className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Email</h3>
+              <a
+                href={`mailto:${email}`}
+                className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium truncate block"
+              >
+                {email}
+              </a>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Phone</h3>
-            <a
-              href={`tel:${phone.replace(/\s/g, '')}`}
-              className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium"
-            >
-              {phone}
-            </a>
-          </div>
-        </div>
 
-        <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
-          <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-            <MapPin className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+          <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+              <Phone className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            </div>
+            <div>
+              <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Phone</h3>
+              <a
+                href={`tel:${phone.replace(/\s/g, '')}`}
+                className="text-sm md:text-base text-foreground hover:text-accent transition-colors font-medium"
+              >
+                {phone}
+              </a>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Location</h3>
-            <p className="text-sm md:text-base text-foreground font-medium">{location}</p>
+
+          <div className="flex items-center gap-3 md:gap-4 p-4 md:p-5 bg-secondary rounded-xl md:rounded-2xl border border-border hover:border-accent transition-colors group">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+              <MapPin className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+            </div>
+            <div>
+              <h3 className="text-xs md:text-sm font-medium text-muted-foreground mb-1">Location</h3>
+              <p className="text-sm md:text-base text-foreground font-medium">{location}</p>
+            </div>
           </div>
         </div>
       </div>

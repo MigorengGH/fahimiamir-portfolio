@@ -155,8 +155,8 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       </div>
 
       {/* LinkedIn Badge */}
-      <div className="mt-6 md:mt-2 w-full flex justify-center overflow-hidden. rounded-xl">
-        <div className="transform scale-[0.9] sm:scale-100 lg:scale-[0.6] xl:scale-[0.85]">
+      <div className="mt-6 md:mt-8 w-full hidden md:flex justify-center overflow-hidden bg-white rounded-xl">
+        <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2">
           <div
             className="badge-base LI-profile-badge"
             data-locale="en_US"

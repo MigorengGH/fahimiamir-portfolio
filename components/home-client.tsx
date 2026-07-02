@@ -86,10 +86,12 @@ export function HomeClient({
             </nav>
 
             <div className="p-4 sm:p-5 md:p-6 lg:p-8">
-              {activeSection === 'about' && <AboutSection data={aboutData} />}
-              {activeSection === 'resume' && <ResumeSection data={resumeData} />}
-              {activeSection === 'portfolio' && <PortfolioSection data={portfolioData} />}
-              {activeSection === 'blog' && <BlogSection data={blogData} />}
+              <div key={activeSection} className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+                {activeSection === 'about' && <AboutSection data={aboutData} />}
+                {activeSection === 'resume' && <ResumeSection data={resumeData} />}
+                {activeSection === 'portfolio' && <PortfolioSection data={portfolioData} />}
+                {activeSection === 'blog' && <BlogSection data={blogData} />}
+              </div>
             </div>
           </main>
         </div>

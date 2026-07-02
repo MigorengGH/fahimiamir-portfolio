@@ -156,19 +156,21 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       </div>
 
       {/* LinkedIn Badge */}
-      <div className="mt-6 flex justify-center">
-        <div
-          className="badge-base LI-profile-badge"
-          data-locale="en_US"
-          data-size="large"
-          data-theme="light"
-          data-type="HORIZONTAL"
-          data-vanity="fahimi-amir"
-          data-version="v1"
-        >
-          <a className=" badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
-            
-          </a>
+      <div className="mt-6 md:mt-8 w-full flex justify-center overflow-hidden bg-white rounded-xl">
+        <div className="transform scale-[0.85] sm:scale-100 lg:scale-[0.75] xl:scale-[0.85] origin-top py-2">
+          <div
+            className="badge-base LI-profile-badge"
+            data-locale="en_US"
+            data-size="large"
+            data-theme="light"
+            data-type="HORIZONTAL"
+            data-vanity="fahimi-amir"
+            data-version="v1"
+          >
+            <a className=" badge-base__link LI-simple-link" href="https://my.linkedin.com/in/fahimi-amir?trk=profile-badge">
+              
+            </a>
+          </div>
         </div>
       </div>
 

@@ -42,8 +42,32 @@ export function HomeClient({
 
   return (
     <div className="min-h-screen bg-transparent p-3 sm:p-4 md:p-6 lg:p-12 relative z-10">
-      <div className="fixed top-4 right-4 md:top-6 md:right-6 z-50">
-        <ThemeToggle />
+      {/* Floating Controls */}
+      <div className="fixed top-4 left-1/2 -translate-x-1/2 md:top-6 md:left-auto md:-translate-x-0 md:right-6 md:flex-row-reverse z-50 flex items-center justify-between md:justify-start gap-2 md:gap-4 w-[calc(100%-2rem)] md:w-auto">
+        <div className="hidden md:block">
+          <ThemeToggle />
+        </div>
+        
+        {/* Navigation Pill */}
+        <nav className="flex flex-1 md:flex-none items-center justify-center gap-1 sm:gap-2 p-1.5 md:p-2 bg-card/80 backdrop-blur-md border border-border rounded-full shadow-lg overflow-x-auto scrollbar-hide">
+          {NAV_TABS.map((section) => (
+            <button
+              key={section}
+              onClick={() => setActiveSection(section)}
+              className={`px-3 sm:px-4 py-1.5 md:py-2 rounded-full text-xs sm:text-sm font-medium capitalize transition-all whitespace-nowrap flex-shrink-0 ${
+                activeSection === section
+                  ? 'text-accent-foreground bg-accent shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+              }`}
+            >
+              {section}
+            </button>
+          ))}
+        </nav>
+
+        <div className="md:hidden flex-shrink-0 bg-card/80 backdrop-blur-md rounded-full shadow-lg border border-border">
+          <ThemeToggle />
+        </div>
       </div>
 
       <div className="mx-auto max-w-7xl">
@@ -51,56 +75,13 @@ export function HomeClient({
           <ProfileSidebar data={profileData} />
 
           {/* Main Content */}
-          <main className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5">
-            {/* Navigation */}
-            <nav className="flex gap-1 sm:gap-2 md:gap-4 p-3 sm:p-4 md:p-6 border-b border-border overflow-x-auto scrollbar-hide sticky top-0 bg-card/80 backdrop-blur-md z-40">
-              {NAV_TABS.map((section) => (
-                <button
-                  key={section}
-                  onClick={() => {
-                    setActiveSection(section)
-                    const el = document.getElementById(`section-${section}`)
-                    if (el && window.innerWidth < 768) {
-                      el.scrollIntoView({ behavior: 'smooth' })
-                    }
-                  }}
-                  className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium capitalize transition-colors whitespace-nowrap flex-shrink-0 ${
-                    activeSection === section
-                      ? 'text-foreground bg-accent/20'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                  }`}
-                >
-                  {section}
-                </button>
-              ))}
-            </nav>
-
-            {/* Desktop View (Tabbed) */}
-            <div className="hidden md:block p-6 lg:p-8">
+          <main className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mt-14 md:mt-0">
+            <div className="p-4 sm:p-5 md:p-6 lg:p-8">
               {activeSection === 'about' && <AboutSection data={aboutData} />}
               {activeSection === 'resume' && <ResumeSection data={resumeData} />}
               {activeSection === 'portfolio' && <PortfolioSection data={portfolioData} />}
               {activeSection === 'blog' && <BlogSection data={blogData} />}
               {activeSection === 'contact' && <ContactSection data={mergedContactData} />}
-            </div>
-
-            {/* Mobile View (Scrollable all sections) */}
-            <div className="md:hidden flex flex-col h-[calc(100vh-10rem)] overflow-y-auto snap-y snap-mandatory scroll-smooth">
-              <div id="section-about" className="snap-start snap-always p-4 sm:p-5 border-b border-border min-h-[calc(100vh-10rem)]">
-                <AboutSection data={aboutData} />
-              </div>
-              <div id="section-resume" className="snap-start snap-always p-4 sm:p-5 border-b border-border min-h-[calc(100vh-10rem)]">
-                <ResumeSection data={resumeData} />
-              </div>
-              <div id="section-portfolio" className="snap-start snap-always p-4 sm:p-5 border-b border-border min-h-[calc(100vh-10rem)]">
-                <PortfolioSection data={portfolioData} />
-              </div>
-              <div id="section-blog" className="snap-start snap-always p-4 sm:p-5 border-b border-border min-h-[calc(100vh-10rem)]">
-                <BlogSection data={blogData} />
-              </div>
-              <div id="section-contact" className="snap-start snap-always p-4 sm:p-5 min-h-[calc(100vh-10rem)]">
-                <ContactSection data={mergedContactData} />
-              </div>
             </div>
           </main>
         </div>

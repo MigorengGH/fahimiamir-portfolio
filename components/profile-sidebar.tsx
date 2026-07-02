@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Mail, Phone, MapPin, Github, Download } from 'lucide-react'
 import { Linkedin } from 'lucide-react'
 import { useTheme } from 'next-themes'

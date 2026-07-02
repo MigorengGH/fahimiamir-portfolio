@@ -33,7 +33,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
   const skillGroups = data.skillGroups || [] // fallback for old data
 
   return (
-    <div className="space-y-10 md:space-y-14">
+    <div className="space-y-10 md:space-y-8">
       <div>
         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
           <TextReveal text="Resume" />

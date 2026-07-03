@@ -160,7 +160,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
 
         {/* Right Column: Image and Geometric Shape (Interactive) */}
         <motion.div 
-          className="w-full md:w-[45%] flex-1 md:h-[90vh] flex items-end justify-center relative z-20 pointer-events-auto mt-2 md:mt-0 min-h-[40vh]"
+          className="w-full md:w-[45%] flex-1 md:h-[90vh] flex items-end justify-center relative z-20 pointer-events-auto -mt-16 sm:-mt-24 md:mt-0 min-h-[40vh]"
           whileHover="hover"
         >
           {/* Glowing Geometric Circle Container (Behind Avatar) */}
@@ -168,7 +168,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.2, type: "spring", bounce: 0.3 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[580px] md:h-[580px] lg:w-[700px] lg:h-[700px] z-0"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] md:w-[580px] md:h-[580px] lg:w-[700px] lg:h-[700px] z-0"
           >
             {/* The Heavily Blurred Background Orb */}
             <motion.div 
@@ -333,7 +333,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
             src={avatarSrc} 
             alt={data?.name || "Muhammad Fahimi Amir"} 
             fetchPriority="high"
-            className="w-[115%] sm:w-[130%] md:w-[160%] lg:w-[180%] max-w-none h-auto max-h-[100%] md:max-h-none object-contain object-bottom origin-bottom drop-shadow-2xl relative z-10"
+            className="w-[140%] sm:w-[150%] md:w-[160%] lg:w-[180%] max-w-none h-auto max-h-[100%] md:max-h-none object-contain object-bottom origin-bottom drop-shadow-2xl relative z-10"
           />
         </motion.div>
       </div>

@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { Trophy, Users, LayoutGrid, ChevronRight, ChevronLeft, ExternalLink, ArrowLeft, Home } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Trophy, Users, LayoutGrid, ChevronRight, ChevronLeft, ExternalLink, ArrowLeft, Home, FileText, MonitorPlay } from 'lucide-react'
 import { TextReveal } from '@/components/text-reveal'
 import { AnimatedReveal } from '@/components/animated-reveal'
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 type Filter = 'all' | 'award' | 'extracurricular'
 
@@ -35,6 +41,7 @@ const FILTER_BUTTONS: Array<{ key: Filter; label: string; Icon: React.ElementTyp
 export function BlogSection({ data }: BlogSectionProps) {
   const [activeFilter, setActiveFilter] = useState<Filter>('all')
   const [selectedPost, setSelectedPost] = useState<any>(null)
+  const [galleryMode, setGalleryMode] = useState<'masonry' | 'slider'>('slider')
 
   const posts = data?.posts || []
   const categories = data?.categories || ['all', 'award', 'extracurricular']
@@ -48,54 +55,49 @@ export function BlogSection({ data }: BlogSectionProps) {
     const BadgeIcon = meta.Icon
     return (
       <div className="space-y-6">
-        {/* Heading */}
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-            <TextReveal text="Blog" />
-          </h2>
-          <div className="w-10 h-1 bg-accent rounded-full mb-6" />
-        </div>
-
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-muted-foreground flex-wrap">
+        {/* Header Actions */}
+        <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => setSelectedPost(null)}
-            className="flex items-center gap-1 hover:text-accent transition-colors"
+            className="flex items-center gap-2 text-sm px-4 py-2 bg-secondary border border-border rounded-xl text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all font-semibold shadow-sm"
           >
-            <Home className="w-3.5 h-3.5" />
-            Blog
+            <ArrowLeft className="w-4 h-4" />
+            Back to all
           </button>
-          <ChevronRight className="w-3.5 h-3.5 text-border flex-shrink-0" />
-          <span
-            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-semibold ${meta.chip}`}
-          >
-            <BadgeIcon className="w-3 h-3" />
-            {meta.label}
-          </span>
-          <ChevronRight className="w-3.5 h-3.5 text-border flex-shrink-0" />
-          <span className="text-foreground font-medium truncate max-w-[200px]">{selectedPost.title}</span>
-        </nav>
 
-        {/* Back button */}
-        <button
-          onClick={() => setSelectedPost(null)}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to all
-        </button>
+          {selectedPost.imageUrls?.length > 1 && (
+            <div className="flex items-center bg-secondary border border-border rounded-xl p-1 shadow-sm">
+              <button
+                onClick={() => setGalleryMode('masonry')}
+                className={`p-1.5 rounded-lg transition-colors ${galleryMode === 'masonry' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                title="Gallery View"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setGalleryMode('slider')}
+                className={`p-1.5 rounded-lg transition-colors ${galleryMode === 'slider' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                title="Slider View"
+              >
+                <MonitorPlay className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Detail card */}
         <div className="bg-secondary rounded-2xl border border-border overflow-hidden">
           {/* Images */}
           <div className="w-full bg-background border-b border-border relative">
-            {selectedPost.imageUrls?.length > 0 ? (
-              <ImageSlider images={selectedPost.imageUrls} title={selectedPost.title} />
+            {galleryMode === 'slider' ? (
+              <ImageSlider 
+                images={selectedPost.imageUrls?.length > 0 ? selectedPost.imageUrls : [selectedPost.imageUrl || selectedPost.image || '/placeholder.svg']} 
+                title={selectedPost.title} 
+              />
             ) : (
-              <img
-                src={selectedPost.imageUrl || selectedPost.image || '/placeholder.svg'}
-                alt={selectedPost.title}
-                className="w-full h-auto max-h-[70vh] object-contain mx-auto"
+              <MasonryGallery 
+                images={selectedPost.imageUrls?.length > 0 ? selectedPost.imageUrls : [selectedPost.imageUrl || selectedPost.image || '/placeholder.svg']} 
+                title={selectedPost.title} 
               />
             )}
           </div>
@@ -123,18 +125,49 @@ export function BlogSection({ data }: BlogSectionProps) {
               {selectedPost.description}
             </p>
 
-            {/* Visit button if URL */}
-            {selectedPost.url && (
-              <a
-                href={selectedPost.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-accent-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity mt-2"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Visit
-              </a>
-            )}
+            <div className="flex flex-row justify-between items-center pt-6 mt-6 border-t border-border gap-2">
+              <div className="flex gap-3 items-center">
+                {selectedPost.url ? (
+                  <a
+                    href={selectedPost.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent text-accent-foreground rounded-xl text-xs md:text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-accent/20"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Visit
+                  </a>
+                ) : (
+                  <div className="hidden" />
+                )}
+              </div>
+
+              {/* Next/Prev Navigation */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const idx = filtered.findIndex((p: any) => p === selectedPost);
+                    if (idx > 0) setSelectedPost(filtered[idx - 1]);
+                  }}
+                  disabled={filtered.findIndex((p: any) => p === selectedPost) <= 0}
+                  className="flex items-center justify-center gap-1.5 px-4 py-2 bg-background border border-border rounded-xl text-xs md:text-sm text-foreground hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium shadow-sm"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Previous
+                </button>
+                <button
+                  onClick={() => {
+                    const idx = filtered.findIndex((p: any) => p === selectedPost);
+                    if (idx !== -1 && idx < filtered.length - 1) setSelectedPost(filtered[idx + 1]);
+                  }}
+                  disabled={filtered.findIndex((p: any) => p === selectedPost) === -1 || filtered.findIndex((p: any) => p === selectedPost) === filtered.length - 1}
+                  className="flex items-center justify-center gap-1.5 px-4 py-2 bg-background border border-border rounded-xl text-xs md:text-sm text-foreground hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium shadow-sm"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -158,11 +191,10 @@ export function BlogSection({ data }: BlogSectionProps) {
           <button
             key={key}
             onClick={() => setActiveFilter(key)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${
-              activeFilter === key
-                ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
-                : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80'
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${activeFilter === key
+              ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
+              : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80'
+              }`}
           >
             <Icon className="w-3.5 h-3.5" />
             {label}
@@ -171,40 +203,56 @@ export function BlogSection({ data }: BlogSectionProps) {
       </div>
 
       {/* Cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 md:gap-5">
         {filtered.map((post: any, index: number) => {
           const meta = BADGE_META[post.category || 'award'] || BADGE_META.award
           const BadgeIcon = meta.Icon
           return (
-            <AnimatedReveal key={index} delay={index * 100} direction="up" className="h-full">
-              <div
-                onClick={() => setSelectedPost(post)}
-                className={`group relative bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg ${meta.glow} transition-all duration-300 flex flex-col cursor-pointer h-full`}
-              >
-                {/* Image */}
-                <div className="relative aspect-video overflow-hidden bg-background flex-shrink-0">
-                  <AnimatedReveal delay={index * 100 + 150} direction="none" className="w-full h-full">
-                    <img
-                      src={(post.imageUrls && post.imageUrls[0]) || post.imageUrl || post.image || '/placeholder.svg'}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </AnimatedReveal>
+            <div key={index} className="break-inside-avoid mb-4 md:mb-5">
+              <AnimatedReveal delay={index * 100} direction="up" className="h-full">
+                <div
+                  onClick={() => setSelectedPost(post)}
+                  className={`group relative bg-secondary rounded-xl md:rounded-2xl border border-border overflow-hidden hover:border-accent hover:shadow-lg ${meta.glow} transition-all duration-300 flex flex-col cursor-pointer h-full`}
+                >
+                  {/* Image */}
+                  <div className="relative aspect-video overflow-hidden bg-background flex-shrink-0">
+                    <AnimatedReveal delay={index * 100 + 150} direction="none" className="w-full h-full">
+                      {(() => {
+                        const src = (post.imageUrls && post.imageUrls[0]) || post.imageUrl || post.image || '/placeholder.svg'
+                        const isPdf = src.toLowerCase().includes('.pdf')
+                        
+                        return isPdf ? (
+                          <div className="w-full h-full min-h-[200px] relative overflow-hidden bg-secondary">
+                            <iframe 
+                              src={`${src}#toolbar=0&navpanes=0&scrollbar=0`} 
+                              title={post.title}
+                              className="w-full h-[400px] border-none pointer-events-none transform origin-top group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            src={src}
+                            alt={post.title}
+                            className="w-full h-auto min-h-[200px] object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )
+                      })()}
+                    </AnimatedReveal>
 
-                  {/* Hover overlay with Visit button */}
-                  <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setSelectedPost(post)
-                      }}
-                      className="flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300 cursor-pointer hover:opacity-90"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      Visit
+                    {/* Hover overlay with Visit button */}
+                    <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedPost(post)
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300 cursor-pointer hover:opacity-90"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Visit
+                      </div>
                     </div>
                   </div>
-                </div>
 
                 {/* Content */}
                 <div className="p-4 md:p-5 flex flex-col flex-1">
@@ -238,8 +286,87 @@ export function BlogSection({ data }: BlogSectionProps) {
                 </div>
               </div>
             </AnimatedReveal>
+          </div>
           )
         })}
+      </div>
+    </div>
+  )
+}
+
+function MediaItem({ src, alt, isPopup = false, className, pdfClassName }: { src: string, alt: string, isPopup?: boolean, className?: string, pdfClassName?: string }) {
+  const isPdf = src.toLowerCase().includes('.pdf')
+  
+  if (isPdf) {
+    if (isPopup) {
+      return (
+        <iframe 
+          src={`${src}#toolbar=0`} 
+          title={alt}
+          className="w-full h-[85vh] rounded-lg bg-background" 
+        />
+      )
+    }
+    
+    return (
+      <div className={pdfClassName || "w-full aspect-[3/4] rounded-xl border border-border/50 bg-secondary overflow-hidden shadow-sm relative group"}>
+        <iframe 
+          src={`${src}#toolbar=0&navpanes=0&scrollbar=0`} 
+          title={alt}
+          className="w-full h-full border-none pointer-events-none"
+        />
+        {/* Invisible overlay to capture clicks */}
+        <div className="absolute inset-0 z-10 cursor-pointer bg-transparent" />
+      </div>
+    )
+  }
+  
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className || (isPopup ? "max-w-full max-h-[90vh] object-contain rounded-lg" : "w-full h-auto rounded-xl border border-border/50 shadow-sm")}
+    />
+  )
+}
+
+function MasonryGallery({ images, title }: { images: string[], title: string }) {
+  if (!images || images.length === 0) return null
+
+  if (images.length === 1) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="cursor-pointer hover:scale-[1.02] transition-transform duration-300 w-full max-w-2xl mx-auto p-4 md:p-6">
+            <MediaItem src={images[0]} alt={title} />
+          </div>
+        </DialogTrigger>
+        <DialogContent className="max-w-5xl w-[95vw] border-none bg-transparent shadow-none p-0 overflow-hidden flex items-center justify-center">
+          <DialogTitle className="sr-only">{title} Preview</DialogTitle>
+          <MediaItem src={images[0]} alt={title} isPopup />
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  return (
+    <div className="p-4 md:p-6 bg-background pt-16 sm:pt-6">
+      <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
+        {images.map((src, index) => (
+          <div key={index} className="break-inside-avoid mb-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+                  <MediaItem src={src} alt={`${title} - Image ${index + 1}`} />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-5xl w-[95vw] border-none bg-transparent shadow-none p-0 overflow-hidden flex items-center justify-center">
+                <DialogTitle className="sr-only">{`${title} - Image ${index + 1} Preview`}</DialogTitle>
+                <MediaItem src={src} alt={`${title} - Image ${index + 1}`} isPopup />
+              </DialogContent>
+            </Dialog>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -248,64 +375,69 @@ export function BlogSection({ data }: BlogSectionProps) {
 function ImageSlider({ images, title }: { images: string[], title: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  useEffect(() => {
+    if (!images || images.length <= 1) return
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [images])
+
   if (!images || images.length === 0) return null
+
   if (images.length === 1) {
-    return (
-      <img
-        src={images[0]}
-        alt={title}
-        className="w-full h-auto max-h-[70vh] object-contain mx-auto"
-      />
-    )
-  }
-
-  const handlePrevious = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-  }
-
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+    return <MasonryGallery images={images} title={title} />
   }
 
   return (
-    <div className="relative w-full group">
-      <img
-        src={images[currentIndex]}
-        alt={`${title} - Image ${currentIndex + 1}`}
-        className="w-full h-auto max-h-[70vh] object-contain mx-auto transition-opacity duration-300"
-      />
+    <div className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-background/30 overflow-hidden group">
+      <div 
+        className="flex w-full h-full transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {images.map((src, index) => (
+          <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center p-4 pb-12 md:pb-4 md:px-16">
+             <Dialog>
+               <DialogTrigger asChild>
+                 <div className="cursor-pointer flex items-center justify-center w-full h-full hover:scale-[1.01] transition-transform duration-300">
+                   <MediaItem 
+                     src={src} 
+                     alt={`${title} - Image ${index + 1}`} 
+                     className="max-w-full max-h-full object-contain rounded-xl shadow-md"
+                     pdfClassName="h-full aspect-[3/4] rounded-xl border border-border/50 bg-secondary overflow-hidden shadow-md relative group"
+                   />
+                 </div>
+               </DialogTrigger>
+               <DialogContent className="max-w-5xl w-[95vw] border-none bg-transparent shadow-none p-0 overflow-hidden flex items-center justify-center">
+                 <DialogTitle className="sr-only">{`${title} - Image ${index + 1} Preview`}</DialogTitle>
+                 <MediaItem src={src} alt={`${title} - Image ${index + 1}`} isPopup />
+               </DialogContent>
+             </Dialog>
+          </div>
+        ))}
+      </div>
       
       {/* Navigation Arrows */}
-      <button
-        onClick={handlePrevious}
-        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 backdrop-blur-md border border-border text-foreground opacity-0 group-hover:opacity-100 transition-all hover:bg-background/80"
-        aria-label="Previous image"
+      <button 
+        onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev - 1 + images.length) % images.length) }}
+        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
-      <button
-        onClick={handleNext}
-        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 backdrop-blur-md border border-border text-foreground opacity-0 group-hover:opacity-100 transition-all hover:bg-background/80"
-        aria-label="Next image"
+      <button 
+        onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev + 1) % images.length) }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
       >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronRight className="w-6 h-6" />
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 p-1.5 rounded-full bg-background/50 backdrop-blur-md border border-border">
-        {images.map((_, index) => (
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-background/30 px-3 py-1.5 rounded-full backdrop-blur-sm">
+        {images.map((_, i) => (
           <button
-            key={index}
-            onClick={(e) => {
-              e.stopPropagation()
-              setCurrentIndex(index)
-            }}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex ? 'bg-foreground scale-125' : 'bg-foreground/40 hover:bg-foreground/60'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
+            key={i}
+            onClick={(e) => { e.stopPropagation(); setCurrentIndex(i) }}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-accent w-6 shadow-sm' : 'bg-foreground/50 hover:bg-foreground/80'}`}
           />
         ))}
       </div>

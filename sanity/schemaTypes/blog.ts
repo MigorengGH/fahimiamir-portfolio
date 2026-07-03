@@ -65,11 +65,14 @@ export const blog = defineType({
             }),
             defineField({
               name: 'images',
-              title: 'Images',
-              description: 'Upload up to 3 images for the blog post',
+              title: 'Images / Documents',
+              description: 'Upload up to 6 images or PDFs for the blog post',
               type: 'array',
-              of: [{ type: 'image', options: { hotspot: true } }],
-              validation: (Rule) => Rule.max(3).warning('You can only upload up to 3 images'),
+              of: [
+                { type: 'image', options: { hotspot: true } },
+                { type: 'file', options: { accept: 'application/pdf' } }
+              ],
+              validation: (Rule) => Rule.max(6).warning('You can only upload up to 6 items'),
             }),
             defineField({
               name: 'url',

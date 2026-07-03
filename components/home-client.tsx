@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { ProfileSidebar } from '@/components/profile-sidebar'
 import { AboutSection } from '@/components/about-section'
 import { ResumeSection } from '@/components/resume-section'
 import { PortfolioSection } from '@/components/portfolio-section'
 import { BlogSection } from '@/components/blog-section'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { HeroLanding } from '@/components/hero-landing'
 
 const NAV_TABS = ['about', 'resume', 'portfolio', 'blog'] as const
 type NavTab = (typeof NAV_TABS)[number]
@@ -28,7 +30,19 @@ export function HomeClient({
 }: HomeClientProps) {
   const [activeSection, setActiveSection] = useState<NavTab>('about')
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [showLanding, setShowLanding] = useState(true)
 
+  // Lock scroll while landing page is visible
+  useEffect(() => {
+    if (showLanding) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showLanding])
   // Handle mobile pull to next section
   useEffect(() => {
     let startY: number | null = null
@@ -96,8 +110,19 @@ export function HomeClient({
   }, [activeSection, isTransitioning])
 
   return (
-    <div className="min-h-screen bg-transparent px-3 pb-3 pt-20 sm:px-4 sm:pb-4 sm:pt-24 md:p-6 lg:p-12 relative z-10">
-      {/* Floating Controls */}
+    <>
+      <AnimatePresence>
+        {showLanding && (
+          <HeroLanding 
+            key="hero"
+            onEnter={() => setShowLanding(false)} 
+            data={profileData}
+          />
+        )}
+      </AnimatePresence>
+
+      <div className={`min-h-screen bg-transparent px-3 pb-3 pt-20 sm:px-4 sm:pb-4 sm:pt-24 md:p-6 lg:p-12 relative z-10 transition-opacity duration-1000 delay-300 ${showLanding ? 'opacity-0' : 'opacity-100'}`}>
+        {/* Floating Controls */}
       <div className="fixed top-4 left-1/2 -translate-x-1/2 md:top-6 md:left-auto md:-translate-x-0 md:right-6 z-50 flex items-center justify-between w-[calc(100%-2rem)] md:w-auto gap-2">
         {/* Navigation Pill (Mobile Only) */}
         <nav className="md:hidden flex flex-1 items-center justify-center gap-1 sm:gap-2 p-1.5 bg-card/80 backdrop-blur-md border border-border rounded-full shadow-lg overflow-x-auto scrollbar-hide">
@@ -164,6 +189,8 @@ export function HomeClient({
         </div>
       </div>
     </div>
+    </>
   )
 }
+
 

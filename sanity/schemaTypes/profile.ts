@@ -22,6 +22,13 @@ export const profile = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'heroAvatar',
+      title: 'Hero Avatar (Transparent PNG)',
+      description: 'Used exclusively for the Hero Landing page. Upload a transparent PNG for the best effect.',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'email',
       title: 'Email',
       type: 'string',

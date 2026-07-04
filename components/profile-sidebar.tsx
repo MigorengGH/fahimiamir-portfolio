@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Github, Download, Linkedin } from 'lucide-react'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
@@ -33,8 +34,12 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         {/* Profile Image */}
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 flex-shrink-0">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
-          <div className="absolute inset-[2px] rounded-3xl bg-secondary overflow-hidden">
-            <img
+          <motion.div 
+            layoutId="hero-avatar-container" 
+            transition={{ layout: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }}
+            className="absolute inset-[2px] rounded-3xl bg-secondary overflow-hidden"
+          >
+            <motion.img
               src={
                 (data as any).avatar && typeof (data as any).avatar === 'object'
                   ? urlFor((data as any).avatar).url()
@@ -43,7 +48,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
               alt={data.name}
               className="w-full h-full object-cover"
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Name & Title Container */}

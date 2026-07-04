@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ProfileSidebar } from '@/components/profile-sidebar'
 import { AboutSection } from '@/components/about-section'
 import { ResumeSection } from '@/components/resume-section'
@@ -137,13 +137,22 @@ export function HomeClient({
         )}
       </AnimatePresence>
 
-      <div className={`min-h-screen bg-transparent px-3 pb-3 pt-4 sm:px-4 sm:pb-24 sm:pt-6 md:p-6 lg:p-12 relative z-10 transition-opacity duration-1000 delay-300 ${showLanding ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      {!showLanding && (
+      <div 
+        className="min-h-screen bg-transparent px-3 pb-3 pt-4 sm:px-4 sm:pb-24 sm:pt-6 md:p-6 lg:p-12 relative z-10 animate-in fade-in duration-1000"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col lg:flex-row gap-2 sm:gap-3 md:gap-6">
           <ProfileSidebar data={profileData} />
 
           {/* Main Content */}
-          <main id="main-content" className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mb-24 md:mb-0 relative">
+          <motion.main 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            id="main-content" 
+            className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mb-24 md:mb-0 relative"
+          >
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center justify-between px-6 py-3 border-b border-border">
               <div className="flex gap-4">
@@ -178,10 +187,11 @@ export function HomeClient({
                 {activeSection === 'blog' && <BlogSection data={blogData} />}
               </div>
             </div>
-          </main>
+          </motion.main>
+          </div>
         </div>
       </div>
-    </div>
+      )}
     <BottomDock 
       activeSection={showLanding ? 'hero' : activeSection} 
       onSelectSection={handleSelectSection} 

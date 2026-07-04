@@ -37,7 +37,7 @@ export function BottomDock({ activeSection, onSelectSection, social }: BottomDoc
   const iconMagnification = isMobile ? 44 : 50
 
   return (
-    <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-full max-w-[100vw] overflow-x-auto scrollbar-hide px-2 flex justify-center">
+    <div className="md:hidden fixed bottom-2 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-full max-w-[100vw] overflow-x-auto scrollbar-hide px-2 flex justify-center">
       <div className="pointer-events-auto">
         <TooltipProvider>
           <Dock direction="middle" iconSize={iconSize} iconMagnification={iconMagnification}>
@@ -52,10 +52,10 @@ export function BottomDock({ activeSection, onSelectSection, social }: BottomDoc
                         aria-label={item.label}
                         className={cn(
                           buttonVariants({ variant: isActive ? "default" : "ghost" }),
-                          "h-full rounded-full transition-colors flex items-center justify-center gap-2",
+                          "rounded-full transition-colors flex items-center justify-center gap-2",
                           isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:bg-secondary/50",
                           !isActive && item.color,
-                          isMobile ? "w-12 p-0" : "px-4"
+                          isMobile ? "size-12 p-0" : "h-full px-4"
                         )}
                       >
                         <item.icon className="size-5 shrink-0" />

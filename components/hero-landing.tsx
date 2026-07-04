@@ -31,6 +31,7 @@ interface HeroLandingProps {
 export function HeroLanding({ onEnter, data }: HeroLandingProps) {
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isEntering, setIsEntering] = useState(false)
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768)
@@ -96,7 +97,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -20, transition: { duration: 0.6, ease: "easeInOut" } }}
+      exit={{ opacity: 0, transition: { duration: 0.1 } }}
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-background text-foreground"
     >
 
@@ -111,7 +112,12 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-0 w-full max-w-[90rem] h-full px-6 md:px-12 lg:px-20 mx-auto">
 
         {/* Left Column: Typography & Button */}
-        <div className="w-full md:w-[55%] flex flex-col items-center md:items-start text-center md:text-left justify-start md:justify-center pt-16 sm:pt-20 md:pt-0 pb-0 z-50 pointer-events-auto shrink-0">
+        <motion.div 
+          animate={isEntering ? { opacity: 0, x: -50 } : { opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="w-full md:w-[55%] flex flex-col items-center md:items-start text-center md:text-left justify-start md:justify-center pt-16 sm:pt-20 md:pt-0 pb-0 z-50 pointer-events-auto shrink-0"
+        >
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -175,11 +181,17 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
           {/* Enter Button */}
           <motion.button
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
+            animate={isEntering ? { opacity: 0, scale: 0.8 } : { opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.5, delay: isEntering ? 0 : 1.2 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={onEnter}
+            onClick={() => {
+              setIsEntering(true)
+              setTimeout(() => {
+                onEnter()
+              }, 1500)
+            }}
             className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-bold rounded-full overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-[#f97316]/40 transition-all duration-700 border border-transparent"
           >
             {/* Pixelated Thermodynamic Hover Overlay */}
@@ -193,18 +205,21 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
             {/* Button Shine Effect */}
             <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
           </motion.button>
-        </div>
+        </motion.div>
 
         {/* Right Column: Image and Geometric Shape (Interactive) */}
         <motion.div
+          animate={isEntering && !isMobile ? { x: "-61%" } : { x: "0%" }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
           className="w-full md:w-[45%] flex-1 md:h-[90vh] flex items-end justify-center relative z-20 pointer-events-auto -mt-16 sm:-mt-24 md:mt-0 min-h-[40vh]"
           whileHover="hover"
         >
           {/* Glowing Geometric Circle Container (Behind Avatar) */}
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.2, type: "spring", bounce: 0.3 }}
+            animate={isEntering ? { scale: 3.5, opacity: 0 } : { scale: 1, opacity: 1 }}
+            exit={{ scale: 3.5, opacity: 0 }}
+            transition={{ duration: 0.7, delay: isEntering ? 0.8 : 0, ease: [0.22, 1, 0.36, 1] }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] md:w-[580px] md:h-[580px] lg:w-[700px] lg:h-[700px] z-0"
           >
             {/* The Heavily Blurred Background Orb */}
@@ -282,14 +297,16 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
           >
             {/* Subtle Floating Wrapper */}
             <motion.div
-              animate={{
+              layoutId="hero-avatar-container"
+              animate={isEntering ? { scale: 1.15, y: -40, rotate: 0 } : {
                 y: [0, -8, 0],
                 rotate: [0, -0.5, 0.5, 0]
               }}
               transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut"
+                layout: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+                duration: isEntering ? 0.7 : 10,
+                delay: isEntering ? 0.8 : 0,
+                repeat: isEntering ? 0 : Infinity,
               }}
               className="w-full h-auto relative origin-bottom"
             >
@@ -298,11 +315,12 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
                 src={avatarSrc}
                 alt={data?.heroAvatar?.alt || data?.name || "Muhammad Fahimi Amir"}
                 fetchPriority="high"
-                initial={{ filter: "brightness(1)", opacity: 1 }}
+                initial={{ opacity: 1 }}
+                animate={isEntering ? { opacity: 0 } : { opacity: 1 }}
+                transition={isEntering ? { duration: 0.8, ease: "easeInOut" } : {}}
                 variants={{
                   hover: {
                     opacity: 0,
-                    filter: "brightness(1.8)",
                     transition: { duration: 0.25, ease: "easeIn" }
                   }
                 }}
@@ -312,13 +330,19 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
               {/* Hover Avatar */}
               {(data?.heroHoverAvatarUrl || data?.heroHoverAvatar) && (
                 <motion.img
+                  layoutId="hero-avatar-image"
                   src={typeof data?.heroHoverAvatar === 'object' && data?.heroHoverAvatar?.asset ? urlFor(data?.heroHoverAvatar).url() : data?.heroHoverAvatarUrl || data?.heroHoverAvatar}
                   alt={data?.heroHoverAvatar?.alt || "Hover Avatar"}
-                  initial={{ opacity: 0, filter: "brightness(1.5)" }}
+                  initial={{ opacity: 0 }}
+                  animate={isEntering ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{
+                    layout: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+                    duration: 0.8, 
+                    ease: "easeInOut" 
+                  }}
                   variants={{
                     hover: {
                       opacity: 1,
-                      filter: "brightness(1)",
                       transition: { duration: 0.4, ease: "easeOut" }
                     }
                   }}

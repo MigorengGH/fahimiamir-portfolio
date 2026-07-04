@@ -44,6 +44,21 @@ export const profile = defineType({
       ]
     }),
     defineField({
+      name: 'heroHoverAvatar',
+      title: 'Hero Hover Avatar (Transparent PNG)',
+      description: 'Used for the hover effect on the Hero Landing page. Upload a transparent PNG for the best effect.',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative Text',
+          description: 'Important for SEO and accessibility.',
+        })
+      ]
+    }),
+    defineField({
       name: 'email',
       title: 'Email',
       type: 'string',

@@ -99,6 +99,7 @@ export interface DockIconProps extends Omit<
   className?: string
   children?: React.ReactNode
   props?: PropsWithChildren
+  aspectRatio?: number
 }
 
 const DockIcon = ({
@@ -109,6 +110,7 @@ const DockIcon = ({
   mouseX,
   className,
   children,
+  aspectRatio = 1,
   ...props
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -127,8 +129,16 @@ const DockIcon = ({
     [-distance, 0, distance],
     [size, targetSize, size]
   )
+  
+  const widthTransform = useTransform(sizeTransform, (val: number) => val * aspectRatio)
 
   const scaleSize = useSpring(sizeTransform, {
+    mass: 0.1,
+    stiffness: 150,
+    damping: 12,
+  })
+  
+  const widthScale = useSpring(widthTransform, {
     mass: 0.1,
     stiffness: 150,
     damping: 12,
@@ -137,15 +147,15 @@ const DockIcon = ({
   return (
     <motion.div
       ref={ref}
-      style={{ width: scaleSize, height: scaleSize, padding }}
+      style={{ width: widthScale, height: scaleSize, padding }}
       className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded-full",
+        "flex cursor-pointer items-center justify-center rounded-full",
         disableMagnification && "hover:bg-muted-foreground transition-colors",
         className
       )}
       {...props}
     >
-      <div>{children}</div>
+      <div className="flex items-center justify-center w-full h-full">{children}</div>
     </motion.div>
   )
 }

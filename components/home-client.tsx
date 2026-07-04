@@ -7,7 +7,9 @@ import { AboutSection } from '@/components/about-section'
 import { ResumeSection } from '@/components/resume-section'
 import { PortfolioSection } from '@/components/portfolio-section'
 import { BlogSection } from '@/components/blog-section'
+import { User, FileText, Briefcase, Pencil } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { HeroLanding } from '@/components/hero-landing'
 import { BottomDock } from '@/components/bottom-dock'
 
 const NAV_TABS = ['about', 'resume', 'portfolio', 'blog'] as const
@@ -30,15 +32,33 @@ export function HomeClient({
 }: HomeClientProps) {
   const [activeSection, setActiveSection] = useState<NavTab>('about')
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [showLanding, setShowLanding] = useState(true)
 
   const handleSelectSection = useCallback((sectionId: string) => {
-    setActiveSection(sectionId as NavTab)
-    const el = document.getElementById('main-content')
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 80
-      window.scrollTo({ top: y, behavior: 'smooth' })
+    if (sectionId === 'hero') {
+      setShowLanding(true)
+    } else {
+      setShowLanding(false)
+      setActiveSection(sectionId as NavTab)
+      const el = document.getElementById('main-content')
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 80
+        window.scrollTo({ top: y, behavior: 'smooth' })
+      }
     }
   }, [])
+
+  // Lock scroll while landing page is visible
+  useEffect(() => {
+    if (showLanding) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showLanding])
   // Handle mobile pull to next section
   useEffect(() => {
     let startY: number | null = null
@@ -107,13 +127,48 @@ export function HomeClient({
 
   return (
     <>
-      <div className="min-h-screen bg-transparent px-3 pb-3 pt-6 sm:px-4 sm:pb-24 sm:pt-12 md:p-6 lg:p-12 relative z-10">
+      <AnimatePresence>
+        {showLanding && (
+          <HeroLanding 
+            key="hero"
+            onEnter={() => setShowLanding(false)} 
+            data={profileData}
+          />
+        )}
+      </AnimatePresence>
+
+      <div className={`min-h-screen bg-transparent px-3 pb-3 pt-4 sm:px-4 sm:pb-24 sm:pt-6 md:p-6 lg:p-12 relative z-10 transition-opacity duration-1000 delay-300 ${showLanding ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col lg:flex-row gap-2 sm:gap-3 md:gap-6">
           <ProfileSidebar data={profileData} />
 
           {/* Main Content */}
-          <main id="main-content" className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5">
+          <main id="main-content" className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mb-24 md:mb-0 relative">
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center justify-between px-6 py-3 border-b border-border">
+              <div className="flex gap-4">
+                {NAV_TABS.map((section) => {
+                  const Icon = section === 'about' ? User : section === 'resume' ? FileText : section === 'portfolio' ? Briefcase : Pencil
+                  const colorClass = section === 'about' ? 'text-blue-500' : section === 'resume' ? 'text-green-500' : section === 'portfolio' ? 'text-purple-500' : 'text-orange-500'
+                  
+                  return (
+                    <button
+                      key={section}
+                      onClick={() => handleSelectSection(section)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        activeSection === section
+                          ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
+                          : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+                      }`}
+                    >
+                      <Icon className={`size-4 ${activeSection !== section ? colorClass : ''}`} />
+                      {section.charAt(0).toUpperCase() + section.slice(1)}
+                    </button>
+                  )
+                })}
+              </div>
+              <ThemeToggle />
+            </nav>
 
             <div className="p-4 sm:p-5 md:p-6 lg:p-8">
               <div key={activeSection} className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out fill-mode-both">
@@ -128,7 +183,7 @@ export function HomeClient({
       </div>
     </div>
     <BottomDock 
-      activeSection={activeSection} 
+      activeSection={showLanding ? 'hero' : activeSection} 
       onSelectSection={handleSelectSection} 
       social={profileData.social}
     />

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Icon } from '@/components/icon'
 import {
   BookOpen, Briefcase, Award, ExternalLink,
-  Code, ImageIcon
+  Code, ImageIcon, ChevronDown, ChevronUp
 } from 'lucide-react'
 
 import {
@@ -25,6 +25,9 @@ interface ResumeSectionProps {
 
 export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
   const [hoveredCert, setHoveredCert] = useState<number | null>(null)
+  const [expandedExps, setExpandedExps] = useState<number[]>(() =>
+    (data.experience || []).map((_: any, i: number) => i)
+  )
 
   const education = data.education || []
   const experience = data.experience || []
@@ -55,16 +58,18 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
               <AnimatedReveal key={index} delay={index * 150} direction="up">
                 <div className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0 h-full">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-start gap-3 mb-2">
                     {/*make the image bigger*/}
                     {item.imageUrl && (
                       <AnimatedReveal delay={index * 150 + 200} direction="left">
-                        <img width={100} height={100} src={item.imageUrl} alt={item.title} className="w-12 h-12 md:w-15 md:h-15 rounded-md object-contain" />
+                        <img width={100} height={100} src={item.imageUrl} alt={item.title} className="w-12 h-12 md:w-15 md:h-15 rounded-md object-contain flex-shrink-0" />
                       </AnimatedReveal>
                     )}
-                    <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+                    <div className="flex-grow flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-4">
+                      <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+                      <span className="text-xs md:text-sm text-accent font-medium whitespace-nowrap">{item.period || item.institution}</span>
+                    </div>
                   </div>
-                  <p className="text-xs md:text-sm text-accent mb-2">{item.period || item.institution}</p>
                   <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
                 </div>
               </AnimatedReveal>
@@ -87,16 +92,44 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
               <AnimatedReveal key={index} delay={index * 150} direction="up">
                 <div className="relative pl-5 md:pl-6 pb-6 border-l-2 border-border last:pb-0 h-full">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent" />
-                  <div className="flex items-center gap-3 mb-2">
+                  <div 
+                    className="flex items-start gap-3 mb-2 cursor-pointer group"
+                    onClick={() => 
+                      setExpandedExps(prev => 
+                        prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+                      )
+                    }
+                  >
                     {item.imageUrl && (
                       <AnimatedReveal delay={index * 150 + 200} direction="left">
-                        <img width={100} height={100} src={item.imageUrl} alt={item.company || item.title} className="w-12 h-12 md:w-20 md:h-20 rounded-md object-contain" />
+                        <img width={100} height={100} src={item.imageUrl} alt={item.company || item.title} className="w-12 h-12 md:w-20 md:h-20 rounded-md object-contain flex-shrink-0" />
                       </AnimatedReveal>
                     )}
-                    <h4 className="text-base md:text-lg font-semibold text-foreground">{item.title}</h4>
+                    <div className="flex-grow flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-4">
+                      <div>
+                        <h4 className="text-base md:text-lg font-semibold text-foreground group-hover:text-accent transition-colors">{item.title}</h4>
+                        {item.company && (
+                          <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{item.company}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs md:text-sm text-accent font-medium whitespace-nowrap">{item.period || ''}</span>
+                        {expandedExps.includes(index) ? (
+                          <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs md:text-sm text-accent mb-2">{(item.company ? `${item.company} • ` : '') + (item.period || '')}</p>
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
+                  {expandedExps.includes(index) && (
+                    <AnimatedReveal delay={0} direction="up">
+                      <div className="mt-3 p-4 rounded-xl bg-secondary/80 border border-border text-xs md:text-sm text-foreground/90 leading-relaxed whitespace-pre-line shadow-sm relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-1 h-full bg-accent/50" />
+                        {item.description}
+                      </div>
+                    </AnimatedReveal>
+                  )}
                 </div>
               </AnimatedReveal>
             ))}

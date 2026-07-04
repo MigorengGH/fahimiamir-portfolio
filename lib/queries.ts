@@ -19,6 +19,13 @@ export const profileQuery = groq`
       alt
     },
     "heroAvatarUrl": heroAvatar.asset->url,
+    heroHoverAvatar {
+      asset->{url},
+      hotspot,
+      crop,
+      alt
+    },
+    "heroHoverAvatarUrl": heroHoverAvatar.asset->url,
     email,
     phone,
     location,

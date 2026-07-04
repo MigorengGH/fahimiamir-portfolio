@@ -91,6 +91,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         </button>
       </div>
 
+
       {/* Collapsible/Always-Visible Divider */}
       <div className={`h-px bg-border my-4 lg:my-6 transition-all duration-300 ${contactsExpanded ? 'block' : 'hidden lg:block'}`} />
 
@@ -139,6 +140,32 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
             <p className="text-sm text-foreground">{data.location}</p>
           </div>
         </div>
+      </div>
+
+      {/* Social Links (Desktop Only) */}
+      <div className="hidden md:flex items-center justify-center gap-3 w-full mt-6 pt-6 border-t border-border">
+        {data.social?.linkedin && (
+          <a
+            href={data.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-[#0077b5] hover:bg-secondary/80 transition-all active:scale-95"
+          >
+            <Linkedin className="w-5 h-5" />
+          </a>
+        )}
+        {data.social?.github && (
+          <a
+            href={data.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-[#ea4335] dark:text-[#ea4335] hover:bg-secondary/80 transition-all active:scale-95"
+          >
+            <Github className="w-5 h-5" />
+          </a>
+        )}
       </div>
     </aside>
   )

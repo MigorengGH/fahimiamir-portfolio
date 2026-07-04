@@ -16,6 +16,13 @@ export const profile = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'shortBio',
+      title: 'Short Brief/Description',
+      description: 'A short description appearing below the title (e.g., Software Engineer).',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
       name: 'avatar',
       title: 'Avatar',
       type: 'image',
@@ -27,6 +34,14 @@ export const profile = defineType({
       description: 'Used exclusively for the Hero Landing page. Upload a transparent PNG for the best effect.',
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative Text',
+          description: 'Important for SEO and accessibility.',
+        })
+      ]
     }),
     defineField({
       name: 'email',
@@ -41,11 +56,6 @@ export const profile = defineType({
     defineField({
       name: 'location',
       title: 'Location',
-      type: 'string',
-    }),
-    defineField({
-      name: 'availability',
-      title: 'Availability',
       type: 'string',
     }),
     defineField({

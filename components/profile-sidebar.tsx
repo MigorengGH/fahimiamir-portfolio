@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Mail, Phone, MapPin, Github, Download, Linkedin } from 'lucide-react'
+import Image from 'next/image'
 import { useTheme } from 'next-themes'
 import { profileData } from '@/lib/portfolio-data'
 import { urlFor } from '@/lib/sanity'
@@ -138,42 +139,6 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
             <p className="text-sm text-foreground">{data.location}</p>
           </div>
         </div>
-      </div>
-
-      {/* Social Links */}
-      <div className="flex items-center justify-center gap-4 mt-4 lg:mt-6 pt-4 lg:pt-6 border-t border-border animate-in fade-in slide-in-from-bottom-2 duration-700 ease-out fill-mode-both">
-        <a
-          href={data.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
-          aria-label="LinkedIn"
-        >
-          <Linkedin className="w-5 h-5" />
-        </a>
-        <a
-          href={(data.social as any).github || 'https://github.com/fahimiamir'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
-          aria-label="GitHub"
-        >
-          <Github className="w-5 h-5" />
-        </a>
-        <a
-          href={data.social.email}
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
-          aria-label="Email"
-        >
-          <Mail className="w-5 h-5" />
-        </a>
-        <a
-          href={data.social.phone}
-          className="w-10 h-10 rounded-lg bg-secondary hover:bg-accent hover:text-accent-foreground transition-colors flex items-center justify-center"
-          aria-label="Phone"
-        >
-          <Phone className="w-5 h-5" />
-        </a>
       </div>
     </aside>
   )

@@ -15,13 +15,15 @@ export const profileQuery = groq`
     heroAvatar {
       asset->{url},
       hotspot,
-      crop
+      crop,
+      alt
     },
     "heroAvatarUrl": heroAvatar.asset->url,
     email,
     phone,
     location,
     availability,
+    shortBio,
     social,
     resumeUrl,
     "resumeDocumentUrl": resumeDocument.asset->url

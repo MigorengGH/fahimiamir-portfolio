@@ -130,10 +130,22 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-lg mb-8 md:mb-12 font-medium leading-relaxed border-l-0 md:border-l-4 md:border-accent px-4 md:px-0 md:pl-4"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-lg mb-4 font-medium leading-relaxed border-l-0 md:border-l-4 md:border-accent px-4 md:px-0 md:pl-4"
           >
             {data?.title || "Software Engineer & Creative Video Maker"}
           </motion.p>
+
+          {/* Short Brief / Description */}
+          {data?.shortBio && (
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="text-sm sm:text-base text-muted-foreground/80 max-w-lg mb-8 md:mb-12 font-normal leading-relaxed border-l-0 md:border-l-4 md:border-accent/40 px-4 md:px-0 md:pl-4"
+            >
+              {data.shortBio}
+            </motion.p>
+          )}
 
           {/* Enter Button */}
           <motion.button
@@ -331,7 +343,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
             }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
             src={avatarSrc} 
-            alt={data?.name || "Muhammad Fahimi Amir"} 
+            alt={data?.heroAvatar?.alt || data?.name || "Muhammad Fahimi Amir"} 
             fetchPriority="high"
             className="w-[140%] sm:w-[150%] md:w-[160%] lg:w-[180%] max-w-none h-auto max-h-[100%] md:max-h-none object-contain object-bottom origin-bottom drop-shadow-2xl relative z-10"
           />

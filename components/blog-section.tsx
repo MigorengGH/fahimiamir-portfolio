@@ -55,8 +55,8 @@ const BADGE_META: Record<string, any> = {
   involvement: {
     label: 'Involvement',
     Icon: Users,
-    chip: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-    glow: 'hover:shadow-blue-500/10',
+    chip: 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/30',
+    glow: 'hover:shadow-emerald-500/10',
   },
 }
 
@@ -256,7 +256,11 @@ export function BlogSection({ data }: BlogSectionProps) {
               key={key}
               onClick={() => setActiveFilter(key)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 ${activeFilter === key
-                ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
+                ? key === 'award'
+                  ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20'
+                  : key === 'involvement'
+                  ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
+                  : 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
                 : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80'
                 }`}
             >

@@ -271,7 +271,7 @@ export function BlogSection({ data }: BlogSectionProps) {
           </button>
           
           {/* View mode toggle */}
-          <div className="flex items-center bg-secondary border border-border rounded-xl p-1 shadow-sm h-full">
+          <div className="hidden sm:flex items-center bg-secondary border border-border rounded-xl p-1 shadow-sm h-full">
           <button
             onClick={() => setViewMode('grid')}
             className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}

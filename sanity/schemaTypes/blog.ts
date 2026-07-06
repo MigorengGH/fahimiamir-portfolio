@@ -33,9 +33,22 @@ export const blog = defineType({
               type: 'string',
             }),
             defineField({
-              name: 'year',
-              title: 'Year',
-              type: 'string',
+              name: 'startDate',
+              title: 'Start Date',
+              type: 'date',
+              options: {
+                dateFormat: 'MM/YYYY',
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'endDate',
+              title: 'End Date',
+              type: 'date',
+              description: 'Leave empty if ongoing',
+              options: {
+                dateFormat: 'MM/YYYY',
+              },
             }),
             defineField({
               name: 'category',

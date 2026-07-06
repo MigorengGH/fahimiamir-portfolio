@@ -103,7 +103,8 @@ export const blogQuery = groq`
     posts[] {
       title,
       org,
-      year,
+      startDate,
+      endDate,
       category,
       description,
       "imageUrl": image.asset->url,

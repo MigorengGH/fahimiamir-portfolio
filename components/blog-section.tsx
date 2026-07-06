@@ -10,6 +10,27 @@ import {
   DialogTrigger,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { urlFor } from '@/sanity/lib/image'
+
+function getOptimizedImageSrc(imageObj: any, fallbackUrl: string) {
+  if (!imageObj) return fallbackUrl
+  if (typeof fallbackUrl === 'string' && fallbackUrl.toLowerCase().includes('.pdf')) return fallbackUrl
+  try {
+    return urlFor(imageObj).url()
+  } catch (e) {
+    return fallbackUrl
+  }
+}
+
+function getOptimizedImages(post: any) {
+  if (post.images && post.images.length > 0) {
+    return post.images.map((img: any, i: number) => getOptimizedImageSrc(img, post.imageUrls?.[i] || ''))
+  }
+  if (post.image) {
+    return [getOptimizedImageSrc(post.image, post.imageUrl || '')]
+  }
+  return [(post.imageUrls && post.imageUrls[0]) || post.imageUrl || '/placeholder.svg']
+}
 
 type Filter = 'all' | 'award' | 'extracurricular'
 
@@ -91,12 +112,12 @@ export function BlogSection({ data }: BlogSectionProps) {
           <div className="w-full bg-background border-b border-border relative">
             {galleryMode === 'slider' ? (
               <ImageSlider 
-                images={selectedPost.imageUrls?.length > 0 ? selectedPost.imageUrls : [selectedPost.imageUrl || selectedPost.image || '/placeholder.svg']} 
+                images={getOptimizedImages(selectedPost)} 
                 title={selectedPost.title} 
               />
             ) : (
               <MasonryGallery 
-                images={selectedPost.imageUrls?.length > 0 ? selectedPost.imageUrls : [selectedPost.imageUrl || selectedPost.image || '/placeholder.svg']} 
+                images={getOptimizedImages(selectedPost)} 
                 title={selectedPost.title} 
               />
             )}
@@ -218,8 +239,9 @@ export function BlogSection({ data }: BlogSectionProps) {
                   <div className="relative aspect-video overflow-hidden bg-background flex-shrink-0">
                     <AnimatedReveal delay={index * 100 + 150} direction="none" className="w-full h-full">
                       {(() => {
-                        const src = (post.imageUrls && post.imageUrls[0]) || post.imageUrl || post.image || '/placeholder.svg'
-                        const isPdf = src.toLowerCase().includes('.pdf')
+                        const optimizedImages = getOptimizedImages(post)
+                        const src = optimizedImages[0]
+                        const isPdf = typeof src === 'string' && src.toLowerCase().includes('.pdf')
                         
                         return isPdf ? (
                           <div className="w-full h-full min-h-[200px] relative overflow-hidden bg-secondary">

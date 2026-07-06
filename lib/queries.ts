@@ -108,7 +108,9 @@ export const blogQuery = groq`
       description,
       "imageUrl": image.asset->url,
       "imageUrls": images[].asset->url,
-      url
+      url,
+      image,
+      images
     }
   }
 `

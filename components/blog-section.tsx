@@ -73,6 +73,13 @@ export function BlogSection({ data }: BlogSectionProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
 
+  useEffect(() => {
+    if (selectedPost) {
+      const isMobile = window.innerWidth < 768
+      setGalleryMode(isMobile ? 'slider' : 'masonry')
+    }
+  }, [selectedPost])
+
   const posts = data?.posts || []
   const categories = data?.categories || ['all', 'award', 'involvement']
 

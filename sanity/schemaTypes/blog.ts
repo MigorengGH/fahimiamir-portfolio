@@ -2,13 +2,13 @@ import { defineField, defineType } from 'sanity'
 
 export const blog = defineType({
   name: 'blog',
-  title: 'Blog / Awards & Extracurricular',
+  title: 'Blog / Awards & Involvement',
   type: 'document',
   fields: [
     defineField({
       name: 'posts',
       title: 'Posts',
-      description: 'Awards, achievements and extracurricular activities displayed in the Blog section',
+      description: 'Awards, achievements and involvement activities displayed in the Blog section',
       type: 'array',
       of: [
         defineField({
@@ -57,7 +57,7 @@ export const blog = defineType({
               options: {
                 list: [
                   { title: 'Award', value: 'award' },
-                  { title: 'Extracurricular', value: 'extracurricular' },
+                  { title: 'Involvement', value: 'involvement' },
                 ],
                 layout: 'radio',
               },
@@ -102,7 +102,7 @@ export const blog = defineType({
       title: 'title',
     },
     prepare() {
-      return { title: 'Blog / Awards & Extracurricular' }
+      return { title: 'Blog / Awards & Involvement' }
     },
   },
 })

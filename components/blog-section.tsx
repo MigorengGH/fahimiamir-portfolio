@@ -39,7 +39,7 @@ function formatDateStr(dateStr: string) {
   return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-type Filter = 'all' | 'award' | 'extracurricular'
+type Filter = 'all' | 'award' | 'involvement'
 
 interface BlogSectionProps {
   data?: any // flexible for Sanity data shape
@@ -52,8 +52,8 @@ const BADGE_META: Record<string, any> = {
     chip: 'bg-amber-500/10 text-amber-500 border-amber-500/30',
     glow: 'hover:shadow-amber-500/10',
   },
-  extracurricular: {
-    label: 'Extracurricular',
+  involvement: {
+    label: 'Involvement',
     Icon: Users,
     chip: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
     glow: 'hover:shadow-blue-500/10',
@@ -63,7 +63,7 @@ const BADGE_META: Record<string, any> = {
 const FILTER_BUTTONS: Array<{ key: Filter; label: string; Icon: React.ElementType }> = [
   { key: 'all', label: 'All', Icon: LayoutGrid },
   { key: 'award', label: 'Award', Icon: Trophy },
-  { key: 'extracurricular', label: 'Extracurricular', Icon: Users },
+  { key: 'involvement', label: 'Involvement', Icon: Users },
 ]
 
 export function BlogSection({ data }: BlogSectionProps) {
@@ -74,7 +74,7 @@ export function BlogSection({ data }: BlogSectionProps) {
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
 
   const posts = data?.posts || []
-  const categories = data?.categories || ['all', 'award', 'extracurricular']
+  const categories = data?.categories || ['all', 'award', 'involvement']
 
   const filtered = [...(activeFilter === 'all' ? posts : posts.filter((p: any) => p.category === activeFilter))].sort((a: any, b: any) => {
     const getSortValue = (post: any) => {
@@ -297,14 +297,14 @@ export function BlogSection({ data }: BlogSectionProps) {
           const BadgeIcon = meta.Icon
           return (
             <div key={index} className="h-full flex w-full">
-              <AnimatedReveal delay={index * 100} direction="up" className="h-full w-full">
+              <AnimatedReveal delay={(index % 3) * 50} direction="up" className="h-full w-full">
                 <div
                   onClick={() => setSelectedPost(post)}
                   className={`group relative bg-secondary border border-border overflow-hidden hover:border-accent hover:shadow-lg ${meta.glow} transition-all duration-300 flex cursor-pointer h-full ${viewMode === 'grid' ? 'flex-col rounded-xl md:rounded-2xl' : 'flex-col sm:flex-row items-stretch sm:items-center p-3 gap-4 rounded-xl md:rounded-2xl'}`}
                 >
                   {/* Image */}
                   <div className={`relative overflow-hidden bg-background flex-shrink-0 ${viewMode === 'grid' ? 'aspect-video w-full' : 'aspect-video sm:aspect-[4/3] w-full sm:w-48 sm:h-32 rounded-lg'}`}>
-                    <AnimatedReveal delay={index * 100 + 150} direction="none" className="w-full h-full">
+                    <div className="w-full h-full">
                       {(() => {
                         const optimizedImages = getOptimizedImages(post)
                         const src = optimizedImages[0]
@@ -326,7 +326,7 @@ export function BlogSection({ data }: BlogSectionProps) {
                           />
                         )
                       })()}
-                    </AnimatedReveal>
+                    </div>
 
                     {/* Hover overlay with Visit button */}
                     <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -539,14 +539,15 @@ function MasonryGallery({ images, title }: { images: string[], title: string }) 
 function ImageSlider({ images, title }: { images: string[], title: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [activePopupIndex, setActivePopupIndex] = useState<number | null>(null)
+  const [isAutoplay, setIsAutoplay] = useState(true)
 
   useEffect(() => {
-    if (!images || images.length <= 1) return
+    if (!images || images.length <= 1 || !isAutoplay) return
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length)
     }, 3000)
     return () => clearInterval(timer)
-  }, [images])
+  }, [images, isAutoplay])
 
   if (!images || images.length === 0) return null
 
@@ -580,13 +581,21 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
         
         {/* Navigation Arrows */}
         <button 
-          onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev - 1 + images.length) % images.length) }}
+          onClick={(e) => { 
+            e.stopPropagation()
+            setIsAutoplay(false)
+            setCurrentIndex((prev) => (prev - 1 + images.length) % images.length) 
+          }}
           className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button 
-          onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev + 1) % images.length) }}
+          onClick={(e) => { 
+            e.stopPropagation()
+            setIsAutoplay(false)
+            setCurrentIndex((prev) => (prev + 1) % images.length) 
+          }}
           className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
           <ChevronRight className="w-6 h-6" />
@@ -597,7 +606,11 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={(e) => { e.stopPropagation(); setCurrentIndex(i) }}
+              onClick={(e) => { 
+                e.stopPropagation()
+                setIsAutoplay(false)
+                setCurrentIndex(i) 
+              }}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-accent w-6 shadow-sm' : 'bg-foreground/50 hover:bg-foreground/80'}`}
             />
           ))}

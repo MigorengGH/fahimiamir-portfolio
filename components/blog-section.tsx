@@ -554,13 +554,13 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
 
   return (
     <>
-      <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] bg-background/10 overflow-hidden group rounded-xl">
+      <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] bg-transparent overflow-hidden group rounded-xl">
         <div 
           className="flex w-full h-full transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((src, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center p-0 pb-12 md:pb-0 md:px-0">
+            <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center p-2 pb-12 md:pb-2 md:px-12">
                <div 
                  className="cursor-pointer flex items-center justify-center w-full h-full hover:scale-[1.01] transition-transform duration-300"
                  onClick={() => setActivePopupIndex(index)}
@@ -568,7 +568,7 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
                  <MediaItem 
                    src={src} 
                    alt={`${title} - Image ${index + 1}`} 
-                   className="w-full h-full object-cover rounded-xl shadow-md"
+                   className="max-w-full max-h-full object-contain rounded-xl shadow-lg border border-border/50 bg-background/20"
                    pdfClassName="h-full aspect-video rounded-xl border border-border/50 bg-secondary overflow-hidden shadow-md relative group"
                  />
                </div>

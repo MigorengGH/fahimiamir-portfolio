@@ -29,34 +29,8 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
 
   return (
     <aside className="relative w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
-      {/* Mobile Social Links (Top Right - Horizontal line matching Show Info height) */}
-      <div className="absolute top-4 right-4 flex lg:hidden items-center gap-2 z-10">
-        {data.social?.linkedin && (
-          <a
-            href={data.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary border border-border text-[#0077b5] hover:bg-secondary/80 transition-all active:scale-95 shadow-sm"
-          >
-            <Linkedin className="w-5 h-5" />
-          </a>
-        )}
-        {data.social?.github && (
-          <a
-            href={data.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary border border-border text-[#ea4335] dark:text-[#ea4335] hover:bg-secondary/80 transition-all active:scale-95 shadow-sm"
-          >
-            <Github className="w-5 h-5" />
-          </a>
-        )}
-      </div>
-
       {/* Profile Header: Avatar left, Name & Title right on mobile, Centered on desktop */}
-      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full pr-24 lg:pr-0">
+      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full">
         {/* Profile Image */}
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 flex-shrink-0">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
@@ -130,7 +104,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       <div className={`
         grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4
         transition-all duration-300 ease-in-out origin-top overflow-hidden
-        ${contactsExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 lg:max-h-none lg:opacity-100'}
+        ${contactsExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 lg:max-h-none lg:opacity-100'}
       `}>
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
@@ -171,31 +145,43 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
             <p className="text-sm text-foreground">{data.location}</p>
           </div>
         </div>
-      </div>
 
-      {/* Social Links (Desktop Only) */}
-      <div className="hidden lg:flex items-center justify-center gap-3 w-full mt-6 pt-6 border-t border-border">
         {data.social?.linkedin && (
-          <a
-            href={data.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-[#0077b5] hover:bg-secondary/80 transition-all active:scale-95"
-          >
-            <Linkedin className="w-5 h-5" />
-          </a>
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
+              <Linkedin className="w-5 h-5 text-[#0077b5]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-muted-foreground uppercase mb-1">LinkedIn</p>
+              <a
+                href={data.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-foreground hover:text-accent transition-colors break-all"
+              >
+                {data.social.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '')}
+              </a>
+            </div>
+          </div>
         )}
+
         {data.social?.github && (
-          <a
-            href={data.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-[#ea4335] dark:text-[#ea4335] hover:bg-secondary/80 transition-all active:scale-95"
-          >
-            <Github className="w-5 h-5" />
-          </a>
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
+              <Github className="w-5 h-5 text-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-muted-foreground uppercase mb-1">GitHub</p>
+              <a
+                href={data.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-foreground hover:text-accent transition-colors break-all"
+              >
+                {data.social.github.replace(/^https?:\/\/(www\.)?github\.com\//, '')}
+              </a>
+            </div>
+          </div>
         )}
       </div>
     </aside>

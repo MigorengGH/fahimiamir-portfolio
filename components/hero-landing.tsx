@@ -98,7 +98,7 @@ export function HeroLanding({ onEnter, data }: HeroLandingProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.1 } }}
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-background text-foreground"
+      className="dark fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-background text-foreground"
     >
 
 

@@ -88,7 +88,7 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
                   </div>
                   )}
 
-                  <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
+                  <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 md:flex hidden items-center justify-center gap-3">
                     <a
                       href={previewUrl}
                       target="_blank"
@@ -119,15 +119,41 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
                   <p className="text-xs md:text-sm text-muted-foreground leading-relaxed flex-1">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {techList.map((t: string, ti: number) => (
-                      <span
-                        key={ti}
-                        className="px-2.5 py-0.5 bg-background border border-border rounded-lg text-xs text-muted-foreground font-medium"
+                  <div className="flex flex-col gap-3 mt-auto">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {techList.map((t: string, ti: number) => (
+                        <span
+                          key={ti}
+                          className="px-2.5 py-0.5 bg-background border border-border rounded-lg text-xs text-muted-foreground font-medium"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Mobile Actions */}
+                    <div className="flex md:hidden gap-2 pt-3 border-t border-border">
+                      <a
+                        href={previewUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => { if (previewUrl === '#') e.preventDefault() }}
+                        className="flex-1 flex items-center justify-center gap-2 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-sm active:scale-95 transition-all"
                       >
-                        {t}
-                      </span>
-                    ))}
+                        <Eye className="w-3.5 h-3.5" />
+                        Preview
+                      </a>
+                      <a
+                        href={sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => { if (sourceUrl === '#') e.preventDefault() }}
+                        className="flex-1 flex items-center justify-center gap-2 py-2 bg-background border border-border text-foreground rounded-lg text-xs font-semibold shadow-sm active:scale-95 transition-all"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Visit
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

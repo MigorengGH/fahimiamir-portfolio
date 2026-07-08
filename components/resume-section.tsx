@@ -176,7 +176,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
                   </div>
 
                   <div
-                    className={`absolute bottom-0 left-0 right-0 px-4 pb-4 transition-all duration-300 flex gap-2 ${hoveredCert === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+                    className={`flex gap-2 px-4 pb-4 mt-auto lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:px-4 lg:pb-4 transition-all duration-300 lg:opacity-0 lg:translate-y-3 lg:pointer-events-none ${hoveredCert === index ? 'lg:opacity-100 lg:translate-y-0 lg:pointer-events-auto' : ''
                       }`}
                   >
                     {item.imageUrl && (
@@ -208,7 +208,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
                       </a>
                     )}
                   </div>
-                  <div className={`transition-all duration-300 ${hoveredCert === index ? 'h-12' : 'h-0'}`} />
+                  <div className={`hidden lg:block transition-all duration-300 ${hoveredCert === index ? 'lg:h-12' : 'h-0'}`} />
                 </div>
               </AnimatedReveal>
             ))}

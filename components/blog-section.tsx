@@ -340,7 +340,7 @@ export function BlogSection({ data }: BlogSectionProps) {
                     </div>
 
                     {/* Hover overlay with Visit button */}
-                    <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 md:flex hidden items-center justify-center">
                       <div
                         onClick={(e) => {
                           e.stopPropagation()
@@ -597,7 +597,7 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
             setIsAutoplay(false)
             setCurrentIndex((prev) => (prev - 1 + images.length) % images.length) 
           }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -607,7 +607,7 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
             setIsAutoplay(false)
             setCurrentIndex((prev) => (prev + 1) % images.length) 
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
+          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
           <ChevronRight className="w-6 h-6" />
         </button>

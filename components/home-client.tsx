@@ -151,7 +151,7 @@ export function HomeClient({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             id="main-content" 
-            className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mb-16 md:mb-0 relative"
+            className="flex-1 bg-card/80 backdrop-blur-md rounded-xl md:rounded-2xl border border-border overflow-hidden shadow-xl shadow-accent/5 mb-16 md:mb-0 relative min-h-[450px] sm:min-h-[550px] md:min-h-[650px]"
           >
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center justify-between px-6 py-3 border-b border-border">

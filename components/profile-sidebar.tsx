@@ -170,7 +170,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm"
             >
-              <Github className="w-4 h-4 text-foreground" />
+              <Github className="w-4 h-4 text-[#ea4335]" />
               <span>GitHub</span>
             </a>
           )}

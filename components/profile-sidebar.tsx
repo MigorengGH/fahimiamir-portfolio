@@ -146,43 +146,35 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
           </div>
         </div>
 
-        {data.social?.linkedin && (
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-              <Linkedin className="w-5 h-5 text-[#0077b5]" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground uppercase mb-1">LinkedIn</p>
-              <a
-                href={data.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-foreground hover:text-accent transition-colors break-all"
-              >
-                {data.social.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '')}
-              </a>
-            </div>
-          </div>
-        )}
+        {/* Separator Line */}
+        <div className="h-px bg-border sm:col-span-2 lg:col-span-1 my-1" />
 
-        {data.social?.github && (
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-              <Github className="w-5 h-5 text-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground uppercase mb-1">GitHub</p>
-              <a
-                href={data.social.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-foreground hover:text-accent transition-colors break-all"
-              >
-                {data.social.github.replace(/^https?:\/\/(www\.)?github\.com\//, '')}
-              </a>
-            </div>
-          </div>
-        )}
+        {/* Social Buttons on One Line */}
+        <div className="flex flex-row gap-3 sm:col-span-2 lg:col-span-1 pt-1">
+          {data.social?.linkedin && (
+            <a
+              href={data.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm"
+            >
+              <Linkedin className="w-4 h-4 text-[#0077b5]" />
+              <span>LinkedIn</span>
+            </a>
+          )}
+
+          {data.social?.github && (
+            <a
+              href={data.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm"
+            >
+              <Github className="w-4 h-4 text-foreground" />
+              <span>GitHub</span>
+            </a>
+          )}
+        </div>
       </div>
     </aside>
   )

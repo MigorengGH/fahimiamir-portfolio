@@ -29,34 +29,8 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
 
   return (
     <aside className="relative w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
-      {/* Mobile Social Links (Top Right) */}
-      <div className="absolute top-4 right-4 flex flex-col lg:hidden items-stretch gap-2 z-10">
-        {data.social?.linkedin && (
-          <a
-            href={data.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-start gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm w-28"
-          >
-            <Linkedin className="w-4 h-4 text-[#0077b5]" />
-            <span>LinkedIn</span>
-          </a>
-        )}
-        {data.social?.github && (
-          <a
-            href={data.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-start gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm w-28"
-          >
-            <Github className="w-4 h-4 text-[#ea4335] dark:text-[#ea4335]" />
-            <span>GitHub</span>
-          </a>
-        )}
-      </div>
-
       {/* Profile Header: Avatar left, Name & Title right on mobile, Centered on desktop */}
-      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full pr-32 lg:pr-0">
+      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full">
         {/* Profile Image */}
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 flex-shrink-0">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
@@ -94,32 +68,77 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         </div>
       </div>
 
-      {/* Buttons Block */}
-      <div className="flex gap-3 w-full mt-4 lg:mt-6">
-        <a
-          href={resumeHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          download={!hasResume ? undefined : true}
-          aria-disabled={!hasResume}
-          className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${hasResume
-            ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
-            : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
-            }`}
-          onClick={(e) => { if (!hasResume) e.preventDefault() }}
-        >
-          <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
-          <span>Resume</span>
-        </a>
+      {/* Buttons Block (Mobile: 2x2 grid, Desktop: Stacked/Simple layout) */}
+      <div className="mt-4 lg:mt-6">
+        {/* Mobile/Tablet Grid */}
+        <div className="grid grid-cols-2 gap-3 w-full lg:hidden">
+          <a
+            href={resumeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={!hasResume ? undefined : true}
+            aria-disabled={!hasResume}
+            className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${hasResume
+              ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
+              : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
+              }`}
+            onClick={(e) => { if (!hasResume) e.preventDefault() }}
+          >
+            <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+            <span>Resume</span>
+          </a>
 
-        {/* Toggle Contact Info (Mobile/Tablet Only) */}
-        <button
-          onClick={() => setContactsExpanded(!contactsExpanded)}
-          className="lg:hidden flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 cursor-pointer"
-          aria-label={contactsExpanded ? "Hide Contact Details" : "Show Contact Details"}
-        >
-          <span>{contactsExpanded ? 'Hide Info' : 'Show Info'}</span>
-        </button>
+          <button
+            onClick={() => setContactsExpanded(!contactsExpanded)}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 cursor-pointer"
+            aria-label={contactsExpanded ? "Hide Contact Details" : "Show Contact Details"}
+          >
+            <span>{contactsExpanded ? 'Hide Info' : 'Show Info'}</span>
+          </button>
+
+          {data.social?.linkedin && (
+            <a
+              href={data.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm"
+            >
+              <Linkedin className="w-4 h-4 text-[#0077b5]" />
+              <span>LinkedIn</span>
+            </a>
+          )}
+
+          {data.social?.github && (
+            <a
+              href={data.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm"
+            >
+              <Github className="w-4 h-4 text-[#ea4335] dark:text-[#ea4335]" />
+              <span>GitHub</span>
+            </a>
+          )}
+        </div>
+
+        {/* Desktop Resume Button */}
+        <div className="hidden lg:block w-full">
+          <a
+            href={resumeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={!hasResume ? undefined : true}
+            aria-disabled={!hasResume}
+            className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${hasResume
+              ? 'bg-accent text-accent-foreground hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 active:scale-95'
+              : 'bg-accent text-accent-foreground opacity-60 cursor-not-allowed'
+              }`}
+            onClick={(e) => { if (!hasResume) e.preventDefault() }}
+          >
+            <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+            <span>Resume</span>
+          </a>
+        </div>
       </div>
 
 

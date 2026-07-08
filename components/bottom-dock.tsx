@@ -74,52 +74,7 @@ export function BottomDock({ activeSection, onSelectSection, social }: BottomDoc
 
             <Separator orientation="vertical" className="h-full mx-1" />
 
-            {/* Social Links (Mobile Only, since dock is mobile only) */}
-            {social?.linkedin && (
-              <DockIcon>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <a
-                      href={social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className={cn(
-                        buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12 rounded-full transition-colors text-[#0077b5] hover:bg-secondary/50"
-                      )}
-                    >
-                      <Linkedin className="size-5" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent><p>LinkedIn</p></TooltipContent>
-                </Tooltip>
-              </DockIcon>
-            )}
-            
-            {social?.github && (
-              <DockIcon>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <a
-                      href={social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="GitHub"
-                      className={cn(
-                        buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12 rounded-full transition-colors text-[#ea4335] dark:text-[#ea4335] hover:bg-secondary/50"
-                      )}
-                    >
-                      <Github className="size-5" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent><p>GitHub</p></TooltipContent>
-                </Tooltip>
-              </DockIcon>
-            )}
 
-            <Separator orientation="vertical" className="h-full mx-1" />
 
             {/* Theme Toggle (Mobile Only, since dock is mobile only) */}
             <DockIcon>

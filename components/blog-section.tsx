@@ -338,20 +338,6 @@ export function BlogSection({ data }: BlogSectionProps) {
                         )
                       })()}
                     </div>
-
-                    {/* Hover overlay with Visit button */}
-                    <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 md:flex hidden items-center justify-center">
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setSelectedPost(post)
-                        }}
-                        className="flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-lg text-xs font-semibold shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300 cursor-pointer hover:opacity-90"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        Visit
-                      </div>
-                    </div>
                   </div>
 
                 {/* Content */}

@@ -30,16 +30,16 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   return (
     <aside className="relative w-full lg:w-80 bg-card rounded-2xl border border-border p-4 md:p-6 lg:sticky lg:top-8 h-fit">
       {/* Mobile Social Links (Top Right) */}
-      <div className="absolute top-4 right-4 flex flex-col lg:hidden items-center gap-2">
+      <div className="absolute top-4 right-4 flex flex-col lg:hidden items-stretch gap-2 z-10">
         {data.social?.linkedin && (
           <a
             href={data.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-secondary text-[#0077b5] hover:bg-secondary/80 transition-all active:scale-95 shadow-sm"
+            className="flex items-center justify-start gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm w-28"
           >
-            <Linkedin className="w-[18px] h-[18px]" />
+            <Linkedin className="w-4 h-4 text-[#0077b5]" />
+            <span>LinkedIn</span>
           </a>
         )}
         {data.social?.github && (
@@ -47,16 +47,16 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
             href={data.social.github}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-secondary text-[#ea4335] dark:text-[#ea4335] hover:bg-secondary/80 transition-all active:scale-95 shadow-sm"
+            className="flex items-center justify-start gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 shadow-sm w-28"
           >
-            <Github className="w-[18px] h-[18px]" />
+            <Github className="w-4 h-4 text-[#ea4335] dark:text-[#ea4335]" />
+            <span>GitHub</span>
           </a>
         )}
       </div>
 
       {/* Profile Header: Avatar left, Name & Title right on mobile, Centered on desktop */}
-      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full pr-16 lg:pr-0">
+      <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-6 w-full pr-32 lg:pr-0">
         {/* Profile Image */}
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 flex-shrink-0">
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />

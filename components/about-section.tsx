@@ -12,11 +12,11 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
     <div className="space-y-8 md:space-y-10">
       {/* About Me */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+        <h2 className="text-xl md:text-3xl font-bold text-foreground mb-4">
           <TextReveal text="About Me" />
         </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
-        <div className="space-y-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+        <div className="space-y-4 text-xs md:text-base text-muted-foreground leading-relaxed text-justify">
           {data.description.map((paragraph, index) => (
             <AnimatedReveal key={index} delay={index * 100}>
               <p>{paragraph}</p>
@@ -27,7 +27,7 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
 
       {/* What I'm Doing */}
       <div>
-        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+        <h3 className="text-lg md:text-2xl font-bold text-foreground mb-6">
           <TextReveal text="What I'm Doing" />
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
@@ -43,8 +43,8 @@ export function AboutSection({ data = aboutData }: AboutSectionProps) {
                     </AnimatedReveal>
                   </div>
                   <div>
-                    <h4 className="text-base md:text-lg font-semibold text-foreground mb-2">{service.title}</h4>
-                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{service.description}</p>
+                    <h4 className="text-sm md:text-lg font-semibold text-foreground mb-2">{service.title}</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed text-justify">{service.description}</p>
                   </div>
                 </div>
               </AnimatedReveal>

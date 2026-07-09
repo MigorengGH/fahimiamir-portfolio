@@ -36,7 +36,7 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
   return (
     <div className="space-y-6 md:space-y-8">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+        <h2 className="text-xl md:text-3xl font-bold text-foreground mb-4">
           <TextReveal text="Portfolio" />
         </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
@@ -116,7 +116,7 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
                   <h3 className="text-base md:text-lg font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed flex-1">
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed flex-1 text-justify">
                     {project.description}
                   </p>
                   <div className="flex flex-col gap-3 mt-auto">

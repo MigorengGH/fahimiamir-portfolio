@@ -19,7 +19,7 @@ interface ProfileSidebarProps {
 export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [contactsExpanded, setContactsExpanded] = useState(false)
+  const [contactsExpanded, setContactsExpanded] = useState(true)
   const resumeHref = (data as any).resumeUrl || (data as any).resumeDocumentUrl || '#'
   const hasResume = resumeHref && resumeHref !== '#'
 
@@ -89,10 +89,10 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
         {/* Toggle Contact Info (Mobile/Tablet Only) */}
         <button
           onClick={() => setContactsExpanded(!contactsExpanded)}
-          className="lg:hidden flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-all active:scale-95 cursor-pointer"
+          className="lg:hidden flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-border bg-secondary hover:bg-secondary/80 text-muted-foreground transition-all active:scale-95 cursor-pointer"
           aria-label={contactsExpanded ? "Hide Contact Details" : "Show Contact Details"}
         >
-          <span>{contactsExpanded ? 'Hide Info' : 'Show Info'}</span>
+          <span className="text-xs">{contactsExpanded ? 'Hide' : 'Info'}</span>
         </button>
       </div>
 
@@ -104,7 +104,7 @@ export function ProfileSidebar({ data = profileData }: ProfileSidebarProps) {
       <div className={`
         grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 md:gap-4
         transition-all duration-300 ease-in-out origin-top overflow-hidden
-        ${contactsExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 lg:max-h-none lg:opacity-100'}
+        ${contactsExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 lg:max-h-none lg:opacity-100'}
       `}>
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">

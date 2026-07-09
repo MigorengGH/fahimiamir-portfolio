@@ -176,7 +176,7 @@ export function BlogSection({ data }: BlogSectionProps) {
             </div>
 
             {/* Title */}
-            <h3 className="text-xl md:text-2xl font-bold text-foreground leading-snug">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground leading-snug">
               {selectedPost.title}
             </h3>
 
@@ -184,7 +184,7 @@ export function BlogSection({ data }: BlogSectionProps) {
             <p className="text-sm text-accent font-semibold">{selectedPost.org}</p>
 
             {/* Full description */}
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap text-justify">
               {selectedPost.description}
             </p>
 
@@ -242,7 +242,7 @@ export function BlogSection({ data }: BlogSectionProps) {
     <div className="space-y-6 md:space-y-8">
       {/* Heading */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+        <h2 className="text-xl md:text-3xl font-bold text-foreground mb-4">
           <TextReveal text="Blog" />
         </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
@@ -371,7 +371,7 @@ export function BlogSection({ data }: BlogSectionProps) {
                   <p className="text-xs text-accent font-medium mb-2">{post.org}</p>
 
                   {/* Description — clipped in list, full in detail */}
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1 text-justify">
                     {post.description}
                   </p>
 
@@ -554,13 +554,13 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
 
   return (
     <>
-      <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] bg-transparent overflow-hidden group rounded-xl">
+      <div className="relative w-full aspect-[4/3] sm:aspect-auto sm:h-[350px] md:h-[450px] bg-transparent overflow-hidden group rounded-xl">
         <div 
           className="flex w-full h-full transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((src, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center p-2 pb-12 md:pb-2 md:px-12">
+            <div key={index} className="w-full h-full flex-shrink-0 flex items-center justify-center p-2 sm:p-3 md:px-12 md:py-2">
                <div 
                  className="cursor-pointer flex items-center justify-center w-full h-full hover:scale-[1.01] transition-transform duration-300"
                  onClick={() => setActivePopupIndex(index)}
@@ -583,9 +583,9 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
             setIsAutoplay(false)
             setCurrentIndex((prev) => (prev - 1 + images.length) % images.length) 
           }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <button 
           onClick={(e) => { 
@@ -593,13 +593,13 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
             setIsAutoplay(false)
             setCurrentIndex((prev) => (prev + 1) % images.length) 
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-background/50 border border-border/50 text-foreground md:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background z-20 shadow-lg backdrop-blur-sm"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
         {/* Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-background/30 px-3 py-1.5 rounded-full backdrop-blur-sm">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20 bg-background/40 px-3 py-1.5 rounded-full backdrop-blur-sm">
           {images.map((_, i) => (
             <button
               key={i}
@@ -608,7 +608,7 @@ function ImageSlider({ images, title }: { images: string[], title: string }) {
                 setIsAutoplay(false)
                 setCurrentIndex(i) 
               }}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-accent w-6 shadow-sm' : 'bg-foreground/50 hover:bg-foreground/80'}`}
+              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-accent w-5 sm:w-6 shadow-sm' : 'bg-foreground/50 hover:bg-foreground/80'}`}
             />
           ))}
         </div>

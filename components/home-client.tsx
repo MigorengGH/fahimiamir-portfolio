@@ -179,7 +179,7 @@ export function HomeClient({
               <ThemeToggle />
             </nav>
 
-            <div className="p-4 sm:p-5 md:p-6 lg:p-8">
+            <div className="p-3 sm:p-5 md:p-6 lg:p-8">
               <div key={activeSection} className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out fill-mode-both">
                 {activeSection === 'about' && <AboutSection data={aboutData} />}
                 {activeSection === 'resume' && <ResumeSection data={resumeData} />}

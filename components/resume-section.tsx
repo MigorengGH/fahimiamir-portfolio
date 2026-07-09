@@ -38,7 +38,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
   return (
     <div className="space-y-10 md:space-y-8">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+        <h2 className="text-xl md:text-3xl font-bold text-foreground mb-4">
           <TextReveal text="Resume" />
         </h2>
         <div className="w-10 h-1 bg-accent rounded-full mb-6" />
@@ -49,7 +49,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground">
               <TextReveal text="Education" delay={100} />
             </h3>
           </div>
@@ -70,7 +70,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
                       <span className="text-xs md:text-sm text-accent font-medium whitespace-nowrap">{item.period || item.institution}</span>
                     </div>
                   </div>
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{item.description}</p>
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap text-justify">{item.description}</p>
                 </div>
               </AnimatedReveal>
             ))}
@@ -83,7 +83,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Briefcase className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground">
               <TextReveal text="Experience" delay={100} />
             </h3>
           </div>
@@ -124,7 +124,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
                   </div>
                   {expandedExps.includes(index) && (
                     <AnimatedReveal delay={0} direction="up">
-                      <div className="mt-3 p-4 rounded-xl bg-secondary/80 border border-border text-xs md:text-sm text-foreground/90 leading-relaxed whitespace-pre-line shadow-sm relative overflow-hidden">
+                      <div className="mt-3 p-4 rounded-xl bg-secondary/80 border border-border text-xs md:text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap text-justify shadow-sm relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-1 h-full bg-accent/50" />
                         {item.description}
                       </div>
@@ -142,7 +142,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Award className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground">
               <TextReveal text="Licenses & Certifications" delay={100} />
             </h3>
           </div>
@@ -221,7 +221,7 @@ export function ResumeSection({ data = resumeData }: ResumeSectionProps) {
         <div>
           <div className="flex items-center gap-2 md:gap-3 mb-6">
             <Code className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            <h3 className="text-xl md:text-2xl font-bold text-foreground">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground">
               <TextReveal text="Skills & Tools" delay={100} />
             </h3>
           </div>

@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fahimi Amir Portfolio Website
 
-## Getting Started
+A state-of-the-art personal portfolio website built with **Next.js**, **Sanity CMS**, and **TailwindCSS**. Features an editorial dark/light theme, interactive thermodynamic grid background, smooth transitions, and dynamic content management.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: Next.js 16 (App Router, Turbopack)
+- **CMS**: Sanity (Embedded Sanity Studio for real-time editing)
+- **Styling**: TailwindCSS 4, Custom HSL Color Tokens, Framer Motion for rich micro-animations
+- **Graph Knowledge Base**: Graphify (Persistent AST-based codebase graph indexing)
+
+## 📁 Sections & Features
+
+1. **Hero Landing Page**: Clean editorial layout with animated name reveal, thermodynamic grid, and hover effects.
+2. **Profile Sidebar**: Unified profile card (avatar, email, location, resume download) driven by Sanity profile settings.
+3. **About Section**: Interactive service cards mapping skills and areas of expertise.
+4. **Resume Section**: Detailed professional history, education, certifications, and visual skill domain lists.
+5. **Projects Section** (formerly Portfolio): A comprehensive gallery of software, web, data analytics, and video projects with filtering, sorting, grid/list view toggles, image sliders, and inline PDF view for documents.
+6. **Blog & Awards**: Grid of award achievements and extracurricular highlights.
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Environment Setup
+Create a `.env.local` file in the root of the project with your Sanity credentials:
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID="your_project_id"
+NEXT_PUBLIC_SANITY_DATASET="production"
+SANITY_API_READ_TOKEN="your_read_token"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Local Installation & Development
+Install the dependencies and start the Turbopack development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Start local dev server
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the site.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✍️ Content Management (Sanity Studio)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All page content (projects, certifications, awards, profile, about description) is fully managed via Sanity Studio. You can edit content in real-time by navigating to `/studio` on your local host (requires a Sanity login/editor permission).
 
-## Deploy on Vercel
+- **Schemas**: Registered in `sanity/schemaTypes`
+- **Structure Resolver**: Configured in `sanity/structure.ts`
+- **Data Queries**: All queries live in `lib/queries.ts` using GROQ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🕸️ Codebase Graph (Graphify)
+
+This repository is integrated with **Graphify** to index code structure and dependencies.
+To rebuild the local AST graph manually:
+
+```bash
+graphify extract . --code-only
+graphify cluster-only .
+```
+
+A post-commit git hook is installed to automatically update the knowledge graph on every commit.

@@ -58,7 +58,7 @@ export function ProjectSection({ data }: ProjectSectionProps) {
   const [activeFilter, setActiveFilter] = useState<Filter>('all')
   const [selectedProject, setSelectedProject] = useState<any>(null)
   const [galleryMode, setGalleryMode] = useState<'masonry' | 'slider'>('slider')
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
   const [sortOrder, setSortOrder] = useState<'custom' | 'desc' | 'asc'>('custom')
 
   useEffect(() => {
@@ -378,6 +378,12 @@ export function ProjectSection({ data }: ProjectSectionProps) {
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed flex-1 text-justify line-clamp-2 mt-2">
                       {project.description}
                     </p>
+
+                    {/* Read more cue */}
+                    <div className="flex items-center gap-1 mt-3 text-xs text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      Read more
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </div>
                     
                     {viewMode === 'grid' && (
                       <div className="flex flex-col gap-3 mt-auto pt-4">

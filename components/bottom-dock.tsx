@@ -18,7 +18,7 @@ export interface BottomDockProps {
 const NAV_ITEMS = [
   { id: "about", icon: User, label: "About", color: "text-blue-500" },
   { id: "resume", icon: FileText, label: "Resume", color: "text-green-500" },
-  { id: "portfolio", icon: Briefcase, label: "Portfolio", color: "text-purple-500" },
+  { id: "projects", icon: Briefcase, label: "Projects", color: "text-purple-500" },
   { id: "blog", icon: Pencil, label: "Blog", color: "text-orange-500" },
 ]
 

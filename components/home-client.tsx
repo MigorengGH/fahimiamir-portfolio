@@ -5,21 +5,21 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ProfileSidebar } from '@/components/profile-sidebar'
 import { AboutSection } from '@/components/about-section'
 import { ResumeSection } from '@/components/resume-section'
-import { PortfolioSection } from '@/components/portfolio-section'
+import { ProjectSection } from '@/components/project-section'
 import { BlogSection } from '@/components/blog-section'
 import { User, FileText, Briefcase, Pencil } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { HeroLanding } from '@/components/hero-landing'
 import { BottomDock } from '@/components/bottom-dock'
 
-const NAV_TABS = ['about', 'resume', 'portfolio', 'blog'] as const
+const NAV_TABS = ['about', 'resume', 'projects', 'blog'] as const
 type NavTab = (typeof NAV_TABS)[number]
 
 interface HomeClientProps {
   profileData: any
   aboutData: any
   resumeData: any
-  portfolioData: any
+  projectData: any
   blogData: any
 }
 
@@ -27,7 +27,7 @@ export function HomeClient({
   profileData,
   aboutData,
   resumeData,
-  portfolioData,
+  projectData,
   blogData,
 }: HomeClientProps) {
   const [activeSection, setActiveSection] = useState<NavTab>('about')
@@ -157,8 +157,8 @@ export function HomeClient({
             <nav className="hidden md:flex items-center justify-between px-6 py-3 border-b border-border">
               <div className="flex gap-4">
                 {NAV_TABS.map((section) => {
-                  const Icon = section === 'about' ? User : section === 'resume' ? FileText : section === 'portfolio' ? Briefcase : Pencil
-                  const colorClass = section === 'about' ? 'text-blue-500' : section === 'resume' ? 'text-green-500' : section === 'portfolio' ? 'text-purple-500' : 'text-orange-500'
+                  const Icon = section === 'about' ? User : section === 'resume' ? FileText : section === 'projects' ? Briefcase : Pencil
+                  const colorClass = section === 'about' ? 'text-blue-500' : section === 'resume' ? 'text-green-500' : section === 'projects' ? 'text-purple-500' : 'text-orange-500'
                   
                   return (
                     <button
@@ -183,7 +183,7 @@ export function HomeClient({
               <div key={activeSection} className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out fill-mode-both">
                 {activeSection === 'about' && <AboutSection data={aboutData} />}
                 {activeSection === 'resume' && <ResumeSection data={resumeData} />}
-                {activeSection === 'portfolio' && <PortfolioSection data={portfolioData} />}
+                {activeSection === 'projects' && <ProjectSection data={projectData} />}
                 {activeSection === 'blog' && <BlogSection data={blogData} />}
               </div>
             </div>

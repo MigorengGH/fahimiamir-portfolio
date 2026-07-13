@@ -99,66 +99,39 @@ export const resumeQuery = groq`
 // ── Blog / Awards & Extracurricular ───────────────────────────────────────────
 
 export const blogQuery = groq`
-  *[_type == "blog"][0] {
-    posts[] {
-      title,
-      org,
-      startDate,
-      endDate,
-      category,
-      description,
-      "imageUrl": image.asset->url,
-      "imageUrls": images[].asset->url,
-      url,
-      image,
-      images
-    }
+  *[_type == "blog"] | order(orderRank asc) {
+    title,
+    org,
+    startDate,
+    endDate,
+    category,
+    description,
+    "imageUrl": image.asset->url,
+    "imageUrls": images[].asset->url,
+    url,
+    image,
+    images
   }
 `
+
 
 // ── Projects ──────────────────────────────────────────────────────────────────
 
 export const projectsListQuery = groq`
-  *[_type == "project"] | order(order asc) {
+  *[_type == "project"] | order(orderRank asc) {
     _id,
     title,
-    slug,
     description,
+    startDate,
+    endDate,
+    category,
     techStack,
-    coverImage {
-      asset->{url},
-      alt,
-      hotspot,
-      crop
-    },
+    "imageUrls": images[].asset->url,
+    images,
     liveUrl,
     repoUrl,
-    order
-  }
-`
-
-export const projectBySlugQuery = groq`
-  *[_type == "project" && slug.current == $slug][0] {
-    _id,
-    title,
-    slug,
-    description,
-    techStack,
-    coverImage {
-      asset->{url},
-      alt,
-      hotspot,
-      crop
-    },
-    liveUrl,
-    repoUrl,
-    order
-  }
-`
-
-export const projectSlugsQuery = groq`
-  *[_type == "project" && defined(slug.current)] {
-    "slug": slug.current
+    orderRank,
+    _createdAt
   }
 `
 

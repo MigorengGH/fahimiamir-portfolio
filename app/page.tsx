@@ -29,10 +29,10 @@ export default async function Home() {
   const aboutData = (aboutResponse.data || {}) as any
   const resumeData = (resumeResponse.data || {}) as any
   const projectsData = (projectsResponse.data || []) as any[]
-  const blogDataRaw = (blogResponse.data || {}) as any
+  const blogDataRaw = (blogResponse.data || []) as any[]
 
-  // Format the projects array to match what PortfolioSection expects
-  const portfolioData = {
+  // Format the projects array to match what ProjectSection expects
+  const projectData = {
     categories: ['all', 'software', 'web', 'data', 'video'], // or extract from tags
     projects: projectsData,
   }
@@ -40,15 +40,16 @@ export default async function Home() {
   // Format blog data
   const blogData = {
     categories: ['all', 'award', 'extracurricular'] as const,
-    posts: blogDataRaw.posts || [],
+    posts: blogDataRaw,
   }
+
 
   return (
     <HomeClient
       profileData={profileData}
       aboutData={aboutData}
       resumeData={resumeData}
-      portfolioData={portfolioData}
+      projectData={projectData}
       blogData={blogData}
     />
   )

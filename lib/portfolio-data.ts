@@ -170,7 +170,7 @@ export const resumeData = {
   ],
 }
 
-export const portfolioData = {
+export const projectData = {
   categories: ['all', 'software', 'web', 'data', 'video'],
   projects: [
     {
